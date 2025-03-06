@@ -24,7 +24,7 @@ public class BuildingSkill : MonoBehaviour, IAttackable
         Skills.SetBaseSkill(new Skill( buildingBase.BuildingData.baseSkill, _buildingBase.Stat));
         DetectComponent = GetComponent<IDetectComponent>();
         isInit = true;
-        StartSkillTask().Forget();
+        StartSkillTask().Forget(); 
     }
 
     async UniTaskVoid StartSkillTask()
