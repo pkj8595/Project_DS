@@ -156,7 +156,7 @@ public class ReturnToBaseState : IUnitState
 
     public void UpdateState()
     {
-        _unitAI.Pawn.UpdateMove();
+        _unitAI?.Pawn.UpdateMove();
     }
     public void AdjustUpdate()
     {

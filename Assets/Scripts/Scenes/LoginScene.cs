@@ -10,8 +10,6 @@ public class LoginScene : BaseScene
         base.Init();
         SCENE_TYPE = Define.Scene.Login;
 
-        List<GameObject> list = new List<GameObject>();
-       
     }
 
     private void Update()

@@ -38,12 +38,12 @@ public class UnitAI
         _cooltime -= Time.deltaTime;
         if (_cooltime < 0)
         {
-            _currentState.AdjustUpdate();
+            _currentState?.AdjustUpdate();
             _cooltime += 0.3f;
         }
         else
         {
-            _currentState.UpdateState();
+            _currentState?.UpdateState();
         }
     }
 
