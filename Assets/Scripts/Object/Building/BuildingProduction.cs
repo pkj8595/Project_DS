@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildingProduction : MonoBehaviour, IWaveEvent
+public class BuildingProduction : MonoBehaviour
 {
     BuildingBase _buildingBase;
     Data.ProductionData _data;

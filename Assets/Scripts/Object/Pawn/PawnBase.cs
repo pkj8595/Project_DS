@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Cysharp.Threading.Tasks;
 
-public abstract class PawnBase :Unit, ISelectedable, IDamageable, IAttackable, IWaveEvent, ICommand
+public abstract class PawnBase :Unit, IDamageable, IAttackable, ICommand
 {
     //data
     public Data.CharacterData CharacterData { get; private set; }
@@ -77,7 +77,6 @@ public abstract class PawnBase :Unit, ISelectedable, IDamageable, IAttackable, I
     {
         if (Team == Define.ETeam.Playable)
         {
-            Managers.Game.RemoveWaveObject(this);
             Managers.Game.Inven.CurrentPopulation--;
         }
     }
@@ -142,12 +141,6 @@ public abstract class PawnBase :Unit, ISelectedable, IDamageable, IAttackable, I
         //stateBar setting
         UIStateBarGroup uiStatebarGroup = Managers.UI.ShowUI<UIStateBarGroup>() as UIStateBarGroup;
         uiStatebarGroup.AddUnit(this);
-
-        if (Team == Define.ETeam.Playable)
-        {
-            Managers.Game.RegisterWaveObject(this);
-        }
-
         Managers.Game.Inven.CurrentPopulation++;
 
         Init();
@@ -163,26 +156,18 @@ public abstract class PawnBase :Unit, ISelectedable, IDamageable, IAttackable, I
         }
         else
         {
-            EnemyFindTarget enemyFindTarget = gameObject.GetComponent<EnemyFindTarget>();
-            if(enemyFindTarget != null)
-            {
-                enemyFindTarget.enabled = false;
-            }
+           
         }
     }
 
     private void EnemyInit() 
     {
-        EnemyFindTarget enemyFindTarget = gameObject.GetOrAddComponent<EnemyFindTarget>();
-        enemyFindTarget.Init();
+        
     }
 
     private void ChangeTeam()
     {
         Team = Define.ETeam.Playable;
-        EnemyFindTarget enemyComponent = GetComponent<EnemyFindTarget>();
-        if (enemyComponent != null)
-            Destroy(enemyComponent);
     }
 
     protected virtual void Init() { }
@@ -495,10 +480,7 @@ public abstract class PawnBase :Unit, ISelectedable, IDamageable, IAttackable, I
     {
         if (DestPos == position)
             return;
-        if (BoardManager.Instance.GetMoveablePosition(position, out Vector3 moveablePosition))
-        {
-            OnMove(moveablePosition, isChase);
-        }
+        
     }
 
     protected virtual void OnMove(Vector3 destPosition, bool isChase)
@@ -554,12 +536,7 @@ public abstract class PawnBase :Unit, ISelectedable, IDamageable, IAttackable, I
     public virtual void OnSelect()
     {
         IsSelected = true;
-        UIData data = new UIUnitData { unitGameObject = this };
-        Managers.UI.ShowUIPopup<UIUnitPopup>(data);
-
-        Skill skill = PawnSkills.GetCurrentSkill();
-        SkillRangeView.SetRange(skill.MinRange, skill.MaxRange);
-        SkillRangeView.SetActive(true);
+       
     }
 
     public virtual void OnDeSelect()
@@ -614,4 +591,7 @@ public abstract class PawnBase :Unit, ISelectedable, IDamageable, IAttackable, I
         OriginPosition = targetPosition;
         SetDestination(targetPosition, false);
     }
+
+    
+
 }

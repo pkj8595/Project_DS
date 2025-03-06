@@ -7,11 +7,8 @@ using Data;
 public class Inventory 
 {
     private readonly Dictionary<int, int> _itemDic = new Dictionary<int, int>();
-    private readonly List<Data.ShopData> _cardDataList = new List<Data.ShopData>();
     public Action<int> OnItemAmountChanged { get; set; }
-    public List<ShopData> GetCardDataList => _cardDataList;
 
-    private UICardList uiCardList;
     private UIMain uiMain;
 
     private int _currentPopulation;
@@ -45,16 +42,6 @@ public class Inventory
         uiMain.SetPopulation(ret);
     }
 
-    public void AddCard(Data.ShopData data)
-    {
-        if (uiCardList == null)
-        {
-            uiCardList = Managers.UI.ShowUI<UICardList>() as UICardList;
-        }
-
-        _cardDataList.Add(data);
-        uiCardList.AddCard(data);
-    }
 
 
     public void Init()
@@ -68,7 +55,6 @@ public class Inventory
     public void Clear()
     {
         _itemDic.Clear();
-        _cardDataList.Clear();
     }
 
     public void AddItem(int itemNum, int amount)

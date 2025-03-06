@@ -153,8 +153,6 @@ public class Skill
         if (string.IsNullOrEmpty(data.projectile))
             return null;
 
-        if (parent == null)
-            parent = GameView.Instance.GetParentObj(Define.EParentObj.Projectile).transform;
 
         var obj = Managers.Resource.Instantiate(Define.Path.Prefab_Bullet + data.projectile, parent);
         return obj.GetComponent<ProjectileBase>();

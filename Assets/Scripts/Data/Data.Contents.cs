@@ -19,13 +19,9 @@ namespace Data
         public StatData[] StatTable;
         public StatConversionData[] StatConversionTable;
         public WaveData[] WaveTable;
-        public StoryData[] StoryTable;
-        public StoryChoiceData[] StoryChoiceTable;
-        public TileBaseData[] TileBaseTable;
         public BuildingData[] BuildingTable;
         public GoodsData[] GoodsTable;
         public RuneData[] RuneTable;
-        public ShopData[] ShopTable;
         public SkillData[] SkillTable;
         public SkillAffectData[] SkillAffectTable;
         public BuffData[] BuffTable;
@@ -69,29 +65,6 @@ namespace Data
             }
         }
 
-        public void MakeTableData(Dictionary<int, StoryData> tableData)
-        {
-            for (int i = 0; i < StoryTable.Length; i++)
-            {
-                tableData.Add(StoryTable[i].tableNum, StoryTable[i]);
-            }
-        }
- 
-        public void MakeTableData(Dictionary<int, StoryChoiceData> tableData)
-        {
-            for (int i = 0; i < StoryChoiceTable.Length; i++)
-            {
-                tableData.Add(StoryChoiceTable[i].tableNum, StoryChoiceTable[i]);
-            }
-        }
-
-        public void MakeTableData(Dictionary<int, TileBaseData> tableData)
-        {
-            for (int i = 0; i < TileBaseTable.Length; i++)
-            {
-                tableData.Add(TileBaseTable[i].tableNum, TileBaseTable[i]);
-            }
-        }
 
         public void MakeTableData(Dictionary<int, BuildingData> tableData)
         {
@@ -117,13 +90,6 @@ namespace Data
             }
         }
 
-        public void MakeTableData(Dictionary<int, ShopData> tableData)
-        {
-            for (int i = 0; i < ShopTable.Length; i++)
-            {
-                tableData.Add(ShopTable[i].tableNum, ShopTable[i]);
-            }
-        }
 
         public void MakeTableData(Dictionary<int, SkillData> tableData)
         {
@@ -302,45 +268,7 @@ namespace Data
         public int[] arr_charAmount = new int[5];
     }
 
-    [Serializable]
-    public class StoryData : TableBase
-    {
-        public const int Table = 111;
-
-        public int eventType;
-        public string name;
-        public string desc;
-        public int priority;
-        public int[] arr_choice = new int[3];
-    }
-
-    [Serializable]
-    public class StoryChoiceData : TableBase
-    {
-        public const int Table = 112;
-
-        public string name;
-        public string desc;
-        public int priority;
-        public int[] arr_nextStoryTable = new int[2];
-        public int pushWave;
-        public int[] arr_getItem = new int[2];
-        public int[] arr_getItemAmount = new int[2];
-        public int[] arr_requiredGoods = new int[3];
-        public int[] arr_requiredAmount = new int[3];
-    }
-
-    #region 201
-    [Serializable]
-    public class TileBaseData : TableBase
-    {
-        public const int Table = 201;
-
-        public string name;
-        public string desc;
-        public string prefab;
-    }
-    #endregion
+ 
 
     #region 202
     [Serializable]
@@ -395,18 +323,6 @@ namespace Data
     }
     #endregion
 
-    [Serializable]
-    public class ShopData : TableBase
-    {
-        public const int Table = 303;
-
-        public string name;
-        public string desc;
-        public int minTableRange;
-        public int maxTableRange;
-        public int[] arr_goods = new int[3];
-        public int[] arr_goods_amount = new int[3];
-    }
 
     [Serializable]
     public class SkillData : TableBase

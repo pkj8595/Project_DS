@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildingBase : Unit, ISelectedable, IWaveEvent
+public class BuildingBase : Unit
 {
     [SerializeField] public GameObject _model;
     [SerializeField] private Collider _collider;
@@ -150,15 +150,12 @@ public class BuildingBase : Unit, ISelectedable, IWaveEvent
             Debug.Log("<color=red>타워가 파괴되었습니다. 게임오버</color>");
         }
 
-        BoardManager.Instance.RemoveNode(GetComponent<NodeBase>());
     }
 
     #region ISelectable
     public void OnSelect()
     {
         IsSelected = true;
-        UIData data = new UIUnitData { unitGameObject = this };
-        Managers.UI.ShowUIPopup<UIUnitPopup>(data);
     }
 
     public void OnDeSelect()
@@ -199,13 +196,11 @@ public class BuildingBase : Unit, ISelectedable, IWaveEvent
     #endregion
     private void OnEnable()
     {
-        Managers.Game.RegisterWaveObject(this);
         
     }
 
     private void OnDisable()
     {
-        Managers.Game.RemoveWaveObject(this);
         if (BuildingData != null)
         {
             Managers.Game.Inven.MaxPopulation -= BuildingData.popluation;

@@ -11,13 +11,9 @@ public class DataManager : ManagerBase
     public List<Data.StatData> NagativePropertyList { get; private set; } = new ();
     public Dictionary<int, Data.StatConversionData> StatConversionDict { get; private set; } = new ();
     public Dictionary<int, Data.WaveData> WaveDict { get; private set; } = new ();
-    public Dictionary<int, Data.StoryData> StoryDict { get; private set; } = new ();
-    public Dictionary<int, Data.StoryChoiceData> StoryChoiceDict { get; private set; } = new ();
-    public Dictionary<int, Data.TileBaseData> TileBaseDict { get; private set; } = new ();
     public Dictionary<int, Data.BuildingData> BuildingDict { get; private set; } = new ();
     public Dictionary<int, Data.GoodsData> GoodsDict { get; private set; } = new ();
     public Dictionary<int, Data.RuneData> RuneDict { get; private set; } = new ();
-    public Dictionary<int, Data.ShopData> ShopDict { get; private set; } = new ();
     public Dictionary<int, Data.SkillData> SkillDict { get; private set; } = new ();
     public Dictionary<int, Data.SkillAffectData> SkillAffectDict { get; private set; } = new ();
     public Dictionary<int, Data.BuffData> BuffDict { get; private set; } = new ();
@@ -34,13 +30,9 @@ public class DataManager : ManagerBase
         tableGroupData.MakeTableData(StatDict, PositivePropertyList, NagativePropertyList);
         tableGroupData.MakeTableData(StatConversionDict);
         tableGroupData.MakeTableData(WaveDict);
-        tableGroupData.MakeTableData(StoryDict);
-        tableGroupData.MakeTableData(StoryChoiceDict);
-        tableGroupData.MakeTableData(TileBaseDict);
         tableGroupData.MakeTableData(BuildingDict);
         tableGroupData.MakeTableData(GoodsDict);
         tableGroupData.MakeTableData(RuneDict);
-        tableGroupData.MakeTableData(ShopDict);
         tableGroupData.MakeTableData(SkillDict);
         tableGroupData.MakeTableData(SkillAffectDict);
         tableGroupData.MakeTableData(BuffDict);
@@ -68,11 +60,7 @@ public class DataManager : ManagerBase
                 StatConversionDict.TryGetValue(tableNum, out statConversionTable);
                 ret = statConversionTable;
                 break;
-            case Data.TileBaseData.Table:
-                Data.TileBaseData tileBaseTable;
-                TileBaseDict.TryGetValue(tableNum, out tileBaseTable);
-                ret = tileBaseTable;
-                break;
+            
             case Data.BuildingData.Table:
                 Data.BuildingData buildingTable;
                 BuildingDict.TryGetValue(tableNum, out buildingTable);

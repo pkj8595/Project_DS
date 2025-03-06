@@ -16,7 +16,6 @@ public class SpawningPool
     {
         Managers.Game.OnSpawnEvent -= AddMonsterCount;
         Managers.Game.OnSpawnEvent += AddMonsterCount;
-        _gateList = GameView.Instance.GateList;
     }
 
     public void AddMonsterCount(int value) 

@@ -12,9 +12,6 @@ public class GameScene : BaseScene
         base.Init();
         SCENE_TYPE = Define.Scene.Game;
         
-        SelectedManager select = gameObject.GetOrAddComponent<SelectedManager>();
-        select.Init();
-
         StartGame().Forget();
     }
 
@@ -42,6 +39,5 @@ public class GameScene : BaseScene
 
         //Managers.UI
         await UniTask.Delay(1000);
-        Managers.Game.StartGame();
     }
 }

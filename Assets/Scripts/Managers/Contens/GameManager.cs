@@ -9,14 +9,12 @@ public partial class GameManager
 
     readonly HashSet<IDamageable> _enumyPawnGroup = new HashSet<IDamageable>();
     readonly HashSet<IDamageable> _pawnGroup = new HashSet<IDamageable>();
-    List<BuildingNode> BuildingGroup { get => GameView.Instance.ConstructedBuildingList; }
     public Action<int> OnSpawnEvent;
 
 
     public void Init()
     {
         Inven.Init();
-        InitWave();
     }
 
     public void Clear()
@@ -28,8 +26,7 @@ public partial class GameManager
 
     public PawnBase SpawnPawn(int tableNum, Define.ETeam team)
     {
-        GameObject go = Managers.Resource.Instantiate("Pawn/Pawn",
-                    GameView.Instance.GetParentObj(Define.EParentObj.Pawn).transform);
+        GameObject go = Managers.Resource.Instantiate("Pawn/Pawn");
 
         PawnBase pawn = go.GetComponent<PawnBase>();
         pawn.Init(tableNum, team);

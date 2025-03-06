@@ -39,7 +39,6 @@ public class UIMain : UIBase
 
     public void OnClickNextPhase()
     {
-        Managers.Game.NextPhase();
         _btnNextPhase.SetActive(false);
     }
 

@@ -65,19 +65,6 @@ public class EffectManager : ManagerBase
 
     private EffectAniController GetPoolAniEffect()
     {
-        for (int i = 0; i < _aniEffectList.Count; i++)
-        {
-            if (!_aniEffectList[i].IsRunning())
-            {
-                GameObject effectObjects = GameView.Instance.GetParentObj(Define.EParentObj.Effect);
-                if (_aniEffectList[i].transform.parent != effectObjects.transform)
-                {
-                    _aniEffectList[i].transform.SetParent(effectObjects.transform);
-                }
-
-                return _aniEffectList[i];   
-            }
-        }
         string path = $"Prefabs/Effects/EffectAnimation";
         GameObject prefab = Resources.Load<GameObject>(path);
         EffectAniController ret = GameObject.Instantiate(prefab).GetComponent<EffectAniController>();
@@ -86,11 +73,6 @@ public class EffectManager : ManagerBase
     }
     public void RemoveAniEffect(EffectAniController controller)
     {
-        GameObject effectObjects = GameView.Instance.GetParentObj(Define.EParentObj.Effect);
         controller.StopEffect();
-        if (controller.transform.parent != effectObjects.transform)
-        {
-            controller.transform.SetParent(effectObjects.transform);
-        }
     }
 }

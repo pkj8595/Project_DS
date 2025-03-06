@@ -67,7 +67,7 @@ public class UI_RuneSlot : UI_Slot, IDropHandler
         if (dropItem == null)
             return;
 
-        if (dropItem.TryGetComponent(out UICard card))
+      /*  if (dropItem.TryGetComponent(out UICard card))
         {
             if (card.Item is RuneItem)
             {
@@ -79,6 +79,6 @@ public class UI_RuneSlot : UI_Slot, IDropHandler
             {
                 card.UseComplete(false);
             }
-        }
+        }*/
     }
 }
