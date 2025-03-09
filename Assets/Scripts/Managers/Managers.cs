@@ -60,11 +60,9 @@ public class Managers : MonoBehaviour
             if (go == null)
             {
                 go = new GameObject { name = "@Managers" };
-                go.AddComponent<Managers>();
             }
-
             DontDestroyOnLoad(go);
-            s_Instance = go.GetComponent<Managers>();
+            s_Instance = go.GetOrAddComponent<Managers>();
 
             s_Instance._scene.Init();
             s_Instance._data.Init();

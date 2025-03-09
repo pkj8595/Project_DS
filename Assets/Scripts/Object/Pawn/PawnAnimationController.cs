@@ -4,6 +4,7 @@ using UnityEngine;
 using PixelHero = Assets.PixelFantasy.PixelHeroes.Common.Scripts.CharacterScripts;
 using System;
 using UnityEngine.U2D.Animation;
+using Cysharp.Threading.Tasks;
 
 public class PawnAnimationController : MonoBehaviour
 {
@@ -83,14 +84,19 @@ public class PawnAnimationController : MonoBehaviour
         if (DefaultMaterial == null) DefaultMaterial = Body.sharedMaterial;
         if (BlinkMaterial == null) BlinkMaterial = new Material(Shader.Find("GUI/Text Shader"));
 
-        StartCoroutine(BlinkCoroutine());
+        BlinkCoroutine().Forget();
     }
 
-    private IEnumerator BlinkCoroutine()
+    public void Flip(Vector3 dir)
+    {
+
+    }
+
+    private async UniTaskVoid BlinkCoroutine()
     {
         Body.material = BlinkMaterial;
 
-        yield return YieldCache.WaitForSeconds(0.1f);
+        await UniTask.Delay(100, cancellationToken: destroyCancellationToken);
 
         Body.material = DefaultMaterial;
     }

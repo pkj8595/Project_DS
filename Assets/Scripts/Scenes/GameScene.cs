@@ -5,8 +5,6 @@ using Cysharp.Threading.Tasks;
 
 public class GameScene : BaseScene
 {
-    [field: SerializeField] public GameObject PawnObj { get; set; }
-
     protected override void Init()
     {
         base.Init();
@@ -20,24 +18,11 @@ public class GameScene : BaseScene
         
     }
 
-    private void Update()
-    {
-        
-    }
 
     async UniTaskVoid StartGame()
     {
         Managers.UI.ShowUI<UIMain>();
         await UniTask.NextFrame();
 
-        //폰 셋팅
-        var pawns = PawnObj.GetComponentsInChildren<PawnController>();
-        for (int i = 0; i < pawns.Length; i++)
-        {
-            Managers.Game.SetPawnInScene(pawns[i]);
-        }
-
-        //Managers.UI
-        await UniTask.Delay(1000);
     }
 }

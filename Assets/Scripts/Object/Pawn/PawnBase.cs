@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Cysharp.Threading.Tasks;
 
-public abstract class PawnBase :Unit, IDamageable, IAttackable, ICommand
+public abstract class PawnBase :Unit, IDamageable, IAttackable
 {
     //data
     public Data.CharacterData CharacterData { get; private set; }
@@ -19,9 +19,8 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable, ICommand
     [SerializeField] protected Transform _projectileTrans;
 
     //pawn 기능
-    [HideInInspector] public NavMeshAgent _navAgent;
     [field : SerializeField] public PawnAnimationController AniController { get; private set; }
-
+    [field : SerializeField] public PawnMove _pawnMove { get; set; }
 
     //룬 && 기벽
     [field : SerializeField] public List<Data.RuneData> RuneList { get; private set; } = new(Define.Pawn_Rune_Limit_Count);
@@ -36,11 +35,11 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable, ICommand
     public float LastCombatTime { get; set; } = 0f;
     public Action OnDeadAction { get; set; }
     public Vector3 StateBarOffset => Vector3.up * 1.2f;
+    private float speed = 2f;
 
     //component
     [SerializeField] private Collider _collider;
     [field: SerializeField] public string AIStateStr { get; set; }
-    [field: SerializeField] public SkillRangeView SkillRangeView { get; set; }
 
     public bool IsSelected { get; set; }
     public virtual Define.EPawnAniState State
@@ -60,8 +59,6 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable, ICommand
             AniController.SetAniState(_state);
         }
     }
-
-    public bool CanMove { get; } = true;
 
     public virtual void SetTriggerAni(Define.EPawnAniTriger trigger)
     {
@@ -90,16 +87,15 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable, ICommand
         if (PawnStat == null)
             PawnStat = gameObject.GetOrAddComponent<PawnStat>();
 
-        if (_navAgent == null)
-        {
-            _navAgent.GetComponent<NavMeshAgent>();
-            _navAgent.updateRotation = false;
-            _navAgent.updateUpAxis = false;
-        }
 
         if (_collider == null)
         {
             _collider = GetComponent<Collider>();
+        }
+
+        if (_pawnMove == null)
+        {
+            _pawnMove = GetComponent<PawnMove>();
         }
 
         //table data setting
@@ -135,15 +131,14 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable, ICommand
 
         //component data setting
         _collider.enabled = true;
-        _navAgent.enabled = true;
-        _navAgent.speed = PawnStat.MoveSpeed;
+        _pawnMove.IsMove = false;
+        _pawnMove.Init(PawnStat.MoveSpeed);
 
         //stateBar setting
         UIStateBarGroup uiStatebarGroup = Managers.UI.ShowUI<UIStateBarGroup>() as UIStateBarGroup;
         uiStatebarGroup.AddUnit(this);
         Managers.Game.Inven.CurrentPopulation++;
 
-        Init();
     }
 
     public void Init(int tableNum, Define.ETeam team)
@@ -170,41 +165,11 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable, ICommand
         Team = Define.ETeam.Playable;
     }
 
-    protected virtual void Init() { }
-
     public void UpdateMove()
     {
-        switch (_navAgent.pathStatus)
-        {
-            case NavMeshPathStatus.PathComplete:
-                //Debug.Log("경로가 완전히 생성.");
-                break;
-            case NavMeshPathStatus.PathPartial:
-                Debug.Log("일부만 생성.");
-                if (_navAgent.path.corners != null)
-                    DestPos = _navAgent.path.corners[_navAgent.path.corners.Length - 1];
-                break;
-            case NavMeshPathStatus.PathInvalid:
-                //Debug.Log("유효하지 않는 경로");
-                _navAgent.isStopped = true;
-                _navAgent.ResetPath();
-                State = Define.EPawnAniState.Idle;
-                return;
-        }
-
-        //naviAgent가 이동을 마쳤을 경우 idle로 돌아감
-        if (_navAgent.velocity == Vector3.zero && Vector3.Distance(DestPos, transform.position) < 0.2f)
-        {
-            //State = _lockTarget == null ? Define.EPawnAniState.Idle : Define.EPawnAniState.Ready;
+        if (_pawnMove.IsMove is false)
             AI.SetState(AI.GetIdleState());
-        }
 
-
-        if (_navAgent.velocity.sqrMagnitude > 0.1f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(_navAgent.velocity.normalized);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 1f);
-        }
     }
 
 
@@ -422,8 +387,9 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable, ICommand
         AI.SetState(AI.GetDeadState());
         UIStateBarGroup uiStatebarGroup = Managers.UI.GetUI<UIStateBarGroup>() as UIStateBarGroup;
         uiStatebarGroup.SetActive(this, false);
-        _navAgent.enabled = false;
         _collider.enabled = false;
+        _pawnMove.IsMove = false;
+
         OnDeadEnemy().Forget();
 
         //사용하고 있는 pawn이 죽으면 50프로 확률로 부정기벽 획득
@@ -439,7 +405,7 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable, ICommand
 
     private void OnChangeStatValue()
     {
-        _navAgent.speed = PawnStat.MoveSpeed;
+        speed = PawnStat.MoveSpeed;
     }
 
     async UniTaskVoid OnDeadEnemy()
@@ -462,8 +428,8 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable, ICommand
             AI.SetState(AI.GetIdleState());
             UIStateBarGroup uiStatebarGroup = Managers.UI.GetUI<UIStateBarGroup>() as UIStateBarGroup;
             uiStatebarGroup.SetActive(this, true);
-            _navAgent.enabled = true;
             _collider.enabled = true;
+            _pawnMove.IsMove = false;
         }
     }
 
@@ -488,12 +454,9 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable, ICommand
         if (DestPos == destPosition)
             return;
         DestPos = destPosition;
-        if (!_navAgent.isActiveAndEnabled)
-        {
-            Debug.LogError($"_navAgent.isActiveAndEnabled : {_navAgent.isActiveAndEnabled}");
-            Debug.LogError(System.Environment.StackTrace);
-        }
-        _navAgent.SetDestination(DestPos);
+        _pawnMove.Move(destPosition);
+        
+
         if (isChase)
             AI.SetState(AI.GetChaseState());
         else
@@ -502,12 +465,10 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable, ICommand
 
 
     /// <summary>
-    /// 길찾기 종료
-    /// </summary>
+    /// 이동 중지    /// </summary>
     public void OnMoveStop()
     {
-        DestPos = gameObject.transform.position;
-        _navAgent.ResetPath();
+        _pawnMove.Stop();
     }
 
     public override bool UpgradeUnit()
@@ -533,18 +494,6 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable, ICommand
         return AniController.GetIdleSprite();
     }
 
-    public virtual void OnSelect()
-    {
-        IsSelected = true;
-       
-    }
-
-    public virtual void OnDeSelect()
-    {
-        IsSelected = false;
-        SkillRangeView.SetActive(false);
-    }
-
 
     public Transform GetTransform()
     {
@@ -561,37 +510,10 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable, ICommand
         return PawnStat;
     }
 
-    public void EndWave()
-    {
-        PawnStat.EndWaveEvent();
-        PawnSkills.EndWave();
-
-        Managers.Game.Inven.SpendMoveItem(transform, StateBarOffset, Define.EGoodsType.food, CharacterData.waveCost, (isSpend) =>
-        {
-            if (isSpend)
-                PawnStat.SpendCost();
-            else
-                PawnStat.DontSpendCost();
-        });
-    }
-
-    public void ReadyWave()
-    {
-        //OnLive();
-        PawnStat.Mana = 0;
-    }
-
     public Collider GetCollider()
     {
         return _collider;
     }
 
-    public void CommandMoveTo(Vector3 targetPosition)
-    {
-        OriginPosition = targetPosition;
-        SetDestination(targetPosition, false);
-    }
-
     
-
 }

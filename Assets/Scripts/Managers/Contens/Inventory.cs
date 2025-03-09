@@ -39,7 +39,6 @@ public class Inventory
 
         if (uiMain == null)
             uiMain = Managers.UI.GetUI<UIMain>() as UIMain;
-        uiMain.SetPopulation(ret);
     }
 
 
