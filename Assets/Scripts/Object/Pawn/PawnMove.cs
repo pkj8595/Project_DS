@@ -6,23 +6,24 @@ public class PawnMove : MonoBehaviour
     [SerializeField] private float _stopDistance;
     [SerializeField] private bool _isMove;
     [SerializeField] private Vector3 _destPos;
-    
+    private Vector3 _velocity;
+    public Vector3 Velocity { get => _velocity;}
 
-    public bool IsMove { get => _isMove; set => _isMove = value; }
+    public bool IsMove { get => _isMove; }
 
     void Update()
     {
         if (!_isMove)
             return;
 
-        Vector3 direction = _destPos - transform.position;
-        direction.z = 0;
-
-        transform.position += direction.normalized * _speed * Time.deltaTime;
+        _velocity = _destPos - transform.position;
+        _velocity.z = 0f;
+        
+        transform.position += _velocity.normalized * _speed * Time.deltaTime;
 
         if (Vector3.Distance(transform.position, _destPos) < _stopDistance)
         {
-            IsMove = false;
+            _isMove = false;
             transform.position = _destPos;
         }
     }
@@ -30,6 +31,7 @@ public class PawnMove : MonoBehaviour
     public void Init(float speed)
     {
         _speed = speed;
+        Stop();
     }
 
     public void Move(Vector3 dest)
@@ -42,6 +44,7 @@ public class PawnMove : MonoBehaviour
     public void Stop()
     {
         _isMove = false;
+        _velocity = Vector3.zero;
     }
 
     public void SetSpeed(float speed)

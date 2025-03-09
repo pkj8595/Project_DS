@@ -5,6 +5,7 @@ using PixelHero = Assets.PixelFantasy.PixelHeroes.Common.Scripts.CharacterScript
 using System;
 using UnityEngine.U2D.Animation;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 
 public class PawnAnimationController : MonoBehaviour
 {
@@ -87,9 +88,11 @@ public class PawnAnimationController : MonoBehaviour
         BlinkCoroutine().Forget();
     }
 
-    public void Flip(Vector3 dir)
+    public void Flip(Vector3 velocity)
     {
-
+        if (velocity == Vector3.zero)
+            return;
+        Body.flipX = velocity.x < 0;
     }
 
     private async UniTaskVoid BlinkCoroutine()

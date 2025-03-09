@@ -131,7 +131,7 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable
 
         //component data setting
         _collider.enabled = true;
-        _pawnMove.IsMove = false;
+        _pawnMove.Stop();
         _pawnMove.Init(PawnStat.MoveSpeed);
 
         //stateBar setting
@@ -169,6 +169,8 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable
     {
         if (_pawnMove.IsMove is false)
             AI.SetState(AI.GetIdleState());
+
+        AniController.Flip(_pawnMove.Velocity);
 
     }
 
@@ -388,7 +390,7 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable
         UIStateBarGroup uiStatebarGroup = Managers.UI.GetUI<UIStateBarGroup>() as UIStateBarGroup;
         uiStatebarGroup.SetActive(this, false);
         _collider.enabled = false;
-        _pawnMove.IsMove = false;
+        _pawnMove.Stop();
 
         OnDeadEnemy().Forget();
 
@@ -429,7 +431,7 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable
             UIStateBarGroup uiStatebarGroup = Managers.UI.GetUI<UIStateBarGroup>() as UIStateBarGroup;
             uiStatebarGroup.SetActive(this, true);
             _collider.enabled = true;
-            _pawnMove.IsMove = false;
+            _pawnMove.Stop();
         }
     }
 
