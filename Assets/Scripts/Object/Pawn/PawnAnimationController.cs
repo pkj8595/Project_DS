@@ -1,11 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using PixelHero = Assets.PixelFantasy.PixelHeroes.Common.Scripts.CharacterScripts;
-using System;
-using UnityEngine.U2D.Animation;
 using Cysharp.Threading.Tasks;
-using DG.Tweening;
 
 public class PawnAnimationController : MonoBehaviour
 {
