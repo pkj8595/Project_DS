@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Define
 {
     public const int Pawn_Rune_Limit_Count = 3;
@@ -17,16 +18,16 @@ public class Define
         Pawn,
         Building,
     }
-    
+
     public enum Layer
     {
-        Water       = 1 << 4,
-        UI          = 1 << 5,
-        Ground      = 1 << 6,
-        Wall        = 1 << 7,
-        Building    = 1 << 8,
-        Pawn        = 1 << 9,
-        PawnGroup   = 1 << 10,
+        Water = 1 << 4,
+        UI = 1 << 5,
+        Ground = 1 << 6,
+        Wall = 1 << 7,
+        Building = 1 << 8,
+        Pawn = 1 << 9,
+        PawnGroup = 1 << 10,
     }
 
     public enum EPawnAniState
@@ -46,7 +47,7 @@ public class Define
         Heal,
         Cool
     }
-  
+
     public enum EParentObj
     {
         Pawn,
@@ -85,7 +86,7 @@ public class Define
     {
         Pawn
     }
-    
+
     public enum EBaseStat
     {
         Vitality,       //체력
@@ -166,7 +167,7 @@ public class Define
         food = 301001004,
     }
 
-    
+
 
     public static class Path
     {
@@ -185,3 +186,4 @@ public class Define
     }
 
 }
+
