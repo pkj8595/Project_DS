@@ -15,6 +15,7 @@ public class UnitSkill
     public void Release()
     {
         _manaAmount = null;
+        
     }
 
     public void SetBaseSkill(Skill baseSkill)
@@ -36,30 +37,7 @@ public class UnitSkill
     {
         SkillList.Remove(skill);
     }
-    public void RemoveSkill(Data.RuneData data)
-    {
-        
-        for (int i = 0; i < SkillList.Count; i++)
-        {
-            if (SkillList[i].TableNum == data.skillTableNum)
-            {
-                if (_currentSkill == SkillList[i]) 
-                {
-                    ClearCurrentSkill();
-                }
-                SkillList.RemoveAt(i);
-
-                break;
-            }
-        }
-    }
-
-    public void ClearRuneSkill()
-    {
-        Skill baseSkill = SkillList[0];
-        SkillList.Clear();
-        SkillList.Add(baseSkill);
-    }
+    
 
     public Skill GetCurrentSkill()
     {
@@ -101,11 +79,4 @@ public class UnitSkill
         return SkillList[0];
     }
 
-    public void EndWave()
-    {
-        for (int i = 0; i < SkillList.Count; i++)
-        {
-            SkillList[i].ResetCoolTime();
-        }
-    }
 }

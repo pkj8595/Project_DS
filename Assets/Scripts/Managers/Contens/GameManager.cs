@@ -9,12 +9,11 @@ public partial class GameManager
 
     readonly HashSet<IDamageable> _enumyPawnGroup = new HashSet<IDamageable>();
     readonly HashSet<IDamageable> _pawnGroup = new HashSet<IDamageable>();
-    public Action<int> OnSpawnEvent;
+    public event Action<int> OnSpawnEvent;
 
 
     public void Init()
     {
-        Inven.Init();
     }
 
     public void Clear()
@@ -24,59 +23,6 @@ public partial class GameManager
 
     }
 
-    public PawnBase SpawnPawn(int tableNum, Define.ETeam team)
-    {
-        GameObject go = Managers.Resource.Instantiate("Pawn/Pawn");
-
-        PawnBase pawn = go.GetComponent<PawnBase>();
-        pawn.Init(tableNum, team);
-
-        if (team == Define.ETeam.Playable)
-            _pawnGroup.Add(pawn);
-        else
-            _enumyPawnGroup.Add(pawn);
-
-        return pawn;
-    }
-
-
-    public void Despawn(IDamageable go)
-    {
-        switch (go.WorldObjectType)
-        {
-            case Define.WorldObject.Pawn:
-                {
-                    if (go.Team == Define.ETeam.Enemy)
-                    {
-                        if (_enumyPawnGroup.Contains(go))
-                        {
-                           _enumyPawnGroup.Remove(go);
-                            OnSpawnEvent?.Invoke(-1);
-                        }
-                    }
-                    else
-                    {
-                        if (_pawnGroup.Contains(go))
-                            _pawnGroup.Remove(go);
-                    }
-                }
-                break;
-            case Define.WorldObject.Building:
-                {
-                   
-                }
-                break;
-        }
-    }
-
-    public void SetPawnInScene(PawnController pawn)
-    {
-        pawn.Init(pawn._testCharacterNum);
-        if (pawn.Team == Define.ETeam.Playable)
-            _pawnGroup.Add(pawn);
-        else
-            _enumyPawnGroup.Add(pawn);
-    }
 
 
 }

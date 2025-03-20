@@ -1,6 +1,7 @@
 using UnityEngine;
 using PixelHero = Assets.PixelFantasy.PixelHeroes.Common.Scripts.CharacterScripts;
 using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
 
 public class PawnAnimationController : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class PawnAnimationController : MonoBehaviour
     /// 캐릭터 생성시 테이블 데이터로 CharacterSprite와 attackType 셋팅
     /// </summary>
     /// <param name="data"></param>
-    public void Init(Data.CharacterData data)
+    public void Init(SOCharacterData data)
     {
         _pawnBuilder.Head = data.Head;
         _pawnBuilder.Ears = data.Ears;
@@ -42,11 +43,6 @@ public class PawnAnimationController : MonoBehaviour
         _pawnBuilder.Horns = data.Horns;
 
         _pawnBuilder.Rebuild();
-    }
-
-    public void Init(int characterDataNum)
-    {
-        Init(Managers.Data.CharacterDict[characterDataNum]);
     }
 
     public void SetAniState(Define.EPawnAniState state)

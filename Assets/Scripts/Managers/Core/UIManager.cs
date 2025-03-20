@@ -16,8 +16,20 @@ public class UIManager : ManagerBase
     public void Init(GameObject root)
     {
         base.Init();
-        _uiRoot = new GameObject("@UIManager").transform;
-        _uiRoot.parent = root.transform;
+        if (_uiRoot == null)
+        {
+            var obj = GameObject.Find("@UIManager");
+            if (obj == null)
+            {
+                _uiRoot = new GameObject("@UIManager").transform;
+                _uiRoot.parent = root.transform;
+            }
+            else
+            {
+                _uiRoot = obj.transform;
+            }
+
+        }
     }
 
     /// <summary>

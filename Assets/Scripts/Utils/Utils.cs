@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Data;
 using System.Text;
 
 public static class Utils
@@ -149,78 +148,6 @@ public static class Utils
             intValues[i] = int.Parse(stringValues[i].Trim());
         }
         return intValues;
-    }
-
-    public static string GetStatStr(Data.StatData data)
-    {
-        System.Text.StringBuilder str = new System.Text.StringBuilder();
-        if (data.vitality != 0) 
-        {
-            str.Append(GetStatColor(data.vitality, $"Vit {data.vitality}"));
-            str.Append("\n");
-        }
-        if (data.strength != 0) 
-        {
-            str.Append(GetStatColor(data.strength, $"Str {data.strength}"));
-            str.Append("\n");
-        }
-        if (data.agility != 0)
-        {
-            str.Append(GetStatColor(data.agility, $"Agi {data.agility}"));
-            str.Append("\n");
-        }
-        if (data.intelligence != 0)
-        {
-            str.Append(GetStatColor(data.intelligence, $"Int {data.intelligence}"));
-            str.Append("\n");
-        }
-        if (data.willpower != 0)
-        {
-            str.Append(GetStatColor(data.willpower, $"Wil {data.willpower}"));
-            str.Append("\n");
-        }
-        if (data.accuracy != 0)
-        {
-            str.Append(GetStatColor(data.accuracy, $"Dex {data.accuracy}"));
-            str.Append("\n");
-        }
-
-        return str.ToString();
-    }
-
-    public static string GetSkillStr(Data.SkillData data)
-    {
-        System.Text.StringBuilder str = new System.Text.StringBuilder();
-        
-        str.Append("\n");
-        str.Append($"Target : {data.targetType}\n");
-        if (0 < data.splashRange)
-            str.Append($"Splash target : {data.manaAmount}\n");
-        else
-            str.Append($"Single target\n");
-        str.Append($"Need Mana : {data.manaAmount}\n");
-        str.Append($"MinRange : {data.minRange}\n");
-        str.Append($"MaxRange : {data.maxRange}\n");
-        
-        str.Append($"CoolTime : {data.coolTime}\n");
-        if (0 < data.motionDuration)
-            str.Append($"Casting Time : {data.motionDuration}\n");
-        
-
-        return str.ToString();
-    }
-
-    public static string GetSkillAffect(Data.SkillAffectData data)
-    {
-        System.Text.StringBuilder str = new System.Text.StringBuilder();
-        str.Append($"Type : {data.affectType}\n");
-        if (data.attributeType != 0)
-            str.Append($"Attribute {data.attributeType}\n");
-        str.Append($"Damage Type : {data.damageType}\n");
-        if (Utils.CalculateTableNum(data.value) != Data.StatData.Table)
-            str.Append($"Skill Value : {data.value}\n");
-
-        return str.ToString();
     }
 
     private static string GetStatColor(int value, string str)

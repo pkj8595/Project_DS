@@ -262,7 +262,6 @@ GameObject:
   - component: {fileID: 9092994966572238061}
   - component: {fileID: 705035529133047113}
   - component: {fileID: 8088009069966384495}
-  - component: {fileID: 8136349819252071458}
   - component: {fileID: 741800065563304740}
   m_Layer: 9
   m_Name: Pawn
@@ -306,7 +305,7 @@ MonoBehaviour:
   _state: 0
   _projectileTrans: {fileID: 4429359987017351780}
   <AniController>k__BackingField: {fileID: 141670392}
-  <_pawnMove>k__BackingField: {fileID: 0}
+  <_pawnMove>k__BackingField: {fileID: 741800065563304740}
   <RuneList>k__BackingField: []
   _collider: {fileID: 8088009069966384495}
   <AIStateStr>k__BackingField: 
@@ -374,19 +373,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &8136349819252071458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6834267158829301281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef1715c919fc3c948add21311ff00a9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isUsing: 0
 --- !u!114 &741800065563304740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,3 +385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2d16d56d3741b44087b974fbff3d658, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _speed: 5
+  _stopDistance: 0.05
+  _isMove: 0
+  _destPos: {x: 0, y: 0, z: 0}

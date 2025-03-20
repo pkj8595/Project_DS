@@ -8,15 +8,6 @@ public class PawnController : PawnBase
 {
     public int _testCharacterNum;
 
-    private void Start()
-    {
-        Init(_testCharacterNum);
-    }
-
-    public override void Init(int characterNum, bool isUpgrade = false)
-    {
-        base.Init(characterNum, isUpgrade);
-    }
 
     public override void Update()
     {

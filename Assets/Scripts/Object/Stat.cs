@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,17 +39,15 @@ public abstract class Stat : MonoBehaviour, IStat
     }
     public abstract float MaxHp { get;}
     public abstract float MaxMana { get;}
-    public abstract float Protection { get;}
+    public abstract float Defence { get;}
     public bool IsDead { get; protected set; }
 
     protected System.Action _OnDeadEvent;
     protected System.Action _OnDeadTargetEvent;
     protected System.Action _OnAffectEvent;
     protected System.Action _OnChangeStatValueEvent;
-    protected List<AffectBase> _affectList = new List<AffectBase>();
 
-
-    public virtual void Init(int statDataNum, System.Action onDead, System.Action onDeadTarget, System.Action onChangeStatValue)
+    public virtual void Init(SOStatData statData, System.Action onDead, System.Action onDeadTarget, System.Action onChangeStatValue)
     {
         _OnDeadEvent -= onDead;
         _OnDeadTargetEvent -= onDeadTarget;
@@ -58,7 +57,6 @@ public abstract class Stat : MonoBehaviour, IStat
         _OnDeadTargetEvent += onDeadTarget;
         _OnChangeStatValueEvent += onChangeStatValue;
         IsDead = false;
-        StartCoroutine(UpdateAffect());
     }
 
     public void SetActionOnChangeValue(System.Action onChangeStatValue)
@@ -74,16 +72,9 @@ public abstract class Stat : MonoBehaviour, IStat
     public virtual void ApplyDamageMessage(ref DamageMessage msg)
     {
         //affect 실행
-        ApplyAffect(msg.skillAffectList, msg.attacker);
+        //ApplyAffect(msg.skillAffectList, msg.attacker);
     }
 
-    protected virtual void ApplyAffect(AffectBase[] affects, Stat attacker)
-    {
-        for (int i = 0; i < affects.Length; i++)
-        {
-            affects[i]?.ApplyAffect(attacker, this);
-        }
-    }
 
     public void SetAffectEvent(System.Action affectAction)
     {
@@ -95,31 +86,10 @@ public abstract class Stat : MonoBehaviour, IStat
         _OnAffectEvent -= affectAction;
     }
 
-    protected IEnumerator UpdateAffect()
-    {
-        while (!IsDead)
-        {
-            for (int i = _affectList.Count - 1; i >= 0; i--)
-            {
-                if (_affectList[i].IsExpired())
-                {
-                    _affectList[i].Remove();
-                    _affectList.RemoveAt(i);
-                }
-            }
-            _OnAffectEvent?.Invoke();
-            yield return YieldCache.WaitForSeconds(1f);
-        }
-    }
-
-    //Attack Value
-    public abstract float GetAttackValue(Define.EDamageType damageType);
-    
-
     //공격 당했을때
     public virtual void OnAttacked(float damageAmount, Stat attacker) 
     {
-        float damage = Mathf.Max(0, CalculateDamage(damageAmount, Protection));
+        float damage = Mathf.Max(0, CalculateDamage(damageAmount, Defence));
         Hp -= damage;
         if (Hp < 0)
         {
@@ -155,7 +125,6 @@ public abstract class Stat : MonoBehaviour, IStat
     public virtual void OnDeadTarget()
     {
         _OnDeadTargetEvent.Invoke();
-
     }
 
     public void OnLive()
@@ -164,20 +133,6 @@ public abstract class Stat : MonoBehaviour, IStat
         IsDead = false;
     }
 
-    public virtual void DontSpendCost()
-    {
-        Hp -= MaxHp * 0.2f;
-        if (Hp < 0)
-        {
-            Hp = 0;
-            OnDead(null);
-        }
-    }
-
-    public virtual void SpendCost()
-    {
-        Hp += MaxHp * 0.2f;
-    }
     public virtual float GetSkillCooldown()
     {
         return 0;

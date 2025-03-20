@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Data;
 
 public class Inventory 
 {
@@ -42,14 +41,6 @@ public class Inventory
     }
 
 
-
-    public void Init()
-    {
-        foreach (var data in Managers.Data.GoodsDict)
-        {
-            _itemDic.Add(data.Key, 100);
-        }
-    }
 
     public void Clear()
     {

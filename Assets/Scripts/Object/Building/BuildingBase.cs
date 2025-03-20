@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class BuildingBase : Unit
 {
-    [SerializeField] public GameObject _model;
+    [SerializeField] private SOBuildingData buildingData;
     [SerializeField] private Collider _collider;
+    [SerializeField] private Sprite _sprite;
+
     [field: SerializeField] public Vector3 StateBarOffset { get; set; }
     [field: SerializeField] public Define.ETeam Team { get; set; } = Define.ETeam.Playable;
     public Define.WorldObject WorldObjectType { get; set; } = Define.WorldObject.Building;
-    public Data.BuildingData BuildingData { get; private set; }
-    protected BuildingProduction _production;
+
     protected BuildingDamageable _damageable;
-    public BuildingStat Stat { get; private set; }
-    public BuildingSkill Skill { get; protected set; }
+    public Stat Stat { get; private set; }
+    public UnitSkill Skill { get; protected set; } = new();
     public Collider Collider { get => _collider; set => _collider = value; }
     public bool IsSelected { get; set; }
 
@@ -21,46 +22,17 @@ public class BuildingBase : Unit
 
     public void Init()
     {
-        Init(BuildingTableNum);
     }
 
-    public virtual void Init(int tableNum)
+    public virtual void Init(SOBuildingData data)
     {
-        Init(Managers.Data.BuildingDict[tableNum]);
-    }
-
-    public virtual void Init(Data.BuildingData data)
-    {
-        if (BuildingData != null)
-        {
-            Managers.Game.Inven.MaxPopulation -= BuildingData.popluation;
-        }
 
         //todo 건물 테이블 수정하고 구현
-        BuildingData = data;
         if (Stat == null)
-            Stat = gameObject.GetOrAddComponent<BuildingStat>();
-        Stat.Init(data.tableNum, OnDead, OnChagneStatValue, OnDeadTarget);
-
-        if (BuildingData.productionTable != 0)
-        {
-            _production = gameObject.GetOrAddComponent<BuildingProduction>();
-            _production.Init(data.productionTable, this);
-        }
-        else
-        {
-            DestroyComponent<BuildingProduction>();
-        }
-
-        if (BuildingData.baseSkill != 0)
-        {
-            Skill = gameObject.GetOrAddComponent<BuildingSkill>();
-            Skill.Init(this);
-        }
-        else
-        {
-            DestroyComponent<BuildingSkill>();
-        }
+            Stat = gameObject.GetOrAddComponent<Stat>();
+        Stat.Init(buildingData.stat, OnDead, OnChagneStatValue, OnDeadTarget);
+        Skill.Init(Stat.Mana);
+        
 
         if (data.isDamageable)
         {
@@ -83,8 +55,6 @@ public class BuildingBase : Unit
             }
         }
 
-        Managers.Game.Inven.MaxPopulation += BuildingData.popluation;
-
     }
 
 
@@ -99,7 +69,7 @@ public class BuildingBase : Unit
 
     public override bool UpgradeUnit()
     {
-        if (BuildingData.upgradeNum == 0 || Team == Define.ETeam.Enemy)
+        /*if (BuildingData.upgradeNum == 0 || Team == Define.ETeam.Enemy)
         {
             Managers.UI.ShowToastMessage("적은 업그레이드 할 수 없습니다.");
             return false;
@@ -109,7 +79,7 @@ public class BuildingBase : Unit
         {
             Init(BuildingData.upgradeNum);
             return true;
-        }
+        }*/
 
         Managers.UI.ShowToastMessage("업그레이드 비용이 부족합니다.");
         return false;
@@ -143,16 +113,9 @@ public class BuildingBase : Unit
             uiStatebarGroup.SetActive(_damageable, false);
         }
 
-        Managers.Effect.PlayAniEffect("SmallStingHit", transform.position);
         gameObject.SetActive(false);
-        if (gameObject.name == "GodTower")
-        {
-            Debug.Log("<color=red>타워가 파괴되었습니다. 게임오버</color>");
-        }
-
     }
 
-    #region ISelectable
     public void OnSelect()
     {
         IsSelected = true;
@@ -163,47 +126,5 @@ public class BuildingBase : Unit
         IsSelected = false;
     }
 
-    public void EndWave()
-    {
-        if (_production != null)
-        {
-            _production.EndWave();
-        }
-
-        if (Skill != null)
-        {
-            Skill.EndWave();
-        }
-
-        Managers.Game.Inven.SpendMoveItem(transform, StateBarOffset, Define.EGoodsType.gold, BuildingData.waveCost, (isSpend) =>
-        {
-            if (isSpend)
-                Stat.SpendCost();
-            else
-                Stat.DontSpendCost();
-        });
-    }
-
-    public void ReadyWave()
-    {
-        Stat.Mana = 0;
-
-        if (_production != null)
-        {
-            _production.ReadyWave();
-        }
-    }
-    #endregion
-    private void OnEnable()
-    {
-        
-    }
-
-    private void OnDisable()
-    {
-        if (BuildingData != null)
-        {
-            Managers.Game.Inven.MaxPopulation -= BuildingData.popluation;
-        }
-    }
+    
 }

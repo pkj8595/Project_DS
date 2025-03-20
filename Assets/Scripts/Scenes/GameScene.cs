@@ -8,7 +8,7 @@ public class GameScene : BaseScene
     protected override void Init()
     {
         base.Init();
-        SCENE_TYPE = Define.Scene.Game;
+        SCENE_TYPE = Define.Scene.GameScene;
         
         StartGame().Forget();
     }

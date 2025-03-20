@@ -31,7 +31,7 @@ public class SceneManagerEx : ManagerBase
 
     public void LoadScene(Define.Scene type)
     {
-        SceneManager.LoadScene(type.ToString());
+        
     }
 
 }

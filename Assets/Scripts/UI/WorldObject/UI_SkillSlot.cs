@@ -38,20 +38,10 @@ public class UI_SkillSlot : UI_Slot
 
     public override string SetDescStr()
     {
-        Data.SkillData data = Managers.Data.SkillDict[_skill.TableNum];
+        SOSkillData data;//= Managers.Data.SkillDict[_skill.TableNum];
         System.Text.StringBuilder str = new();
         str.Append(_skill.Desc);
         str.Append("\n\n");
-        str.Append(Utils.GetSkillStr(data));
-        str.Append("\n\n");
-        for (int i = 0; i < data.arr_affect.Length; i++)
-        {
-            if (data.arr_affect[i] != 0)
-            {
-                str.Append($"\nEffect { i + 1 }\n");
-                str.Append(Utils.GetSkillAffect(Managers.Data.SkillAffectDict[data.arr_affect[i]]));
-            }
-        }
 
         return str.ToString();
     }

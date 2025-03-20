@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 
@@ -12,6 +13,7 @@ public class Define
     /// <summary>
     /// worldObject 상태
     /// </summary>
+
     public enum WorldObject
     {
         Unknown,
@@ -59,7 +61,7 @@ public class Define
     {
         Unknown,
         Login,
-        Game,
+        GameScene,
         Ending,
     }
 
@@ -145,6 +147,8 @@ public class Define
         Area,
     }
 
+    
+
     public enum EEffectType
     {
         Common,
@@ -167,7 +171,13 @@ public class Define
         food = 301001004,
     }
 
-
+    public enum EStatDataType
+    {
+        Character,
+        Building,
+        Upgrade,
+        Skill,
+    }
 
     public static class Path
     {

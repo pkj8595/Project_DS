@@ -57,7 +57,7 @@ public static class Extension
 
 }
 
-public static class Enum 
+public static class EnumEx
 {
     public static int ToInt(this System.Enum enumValue)
     {
