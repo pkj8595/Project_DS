@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class PlayerController : NetworkBehaviour
 {
-    public readonly SyncVar<int> Mineral = new();
-    public readonly SyncVar<int> Gas = new();
-
-    
+    public readonly SyncVar<int> Mineral = new(0);
+    public readonly SyncVar<int> Gas = new(0);
 
     private void Update()
     {
@@ -17,11 +15,21 @@ public class PlayerController : NetworkBehaviour
 
     }
 
-    [Server]
-    public void Test()
+    public void RequestBuild(int tableNum, Vector3 position)
     {
 
     }
+
+    public void UpgradeBuilding(BuildingBase building)
+    {
+
+    }
+
+    public void OnReceiveInput(/*InputData data*/)
+    {
+
+    }
+
 
 
 }

@@ -29,16 +29,6 @@ public class CubeEventTest : MonoBehaviour
         uimain.UIMoveResource.QueueAddItem(transform.position, goods, 100);
     }
 
-    public void Test3()
-    {
-        var uimain = Managers.UI.GetUI<UIMain>() as UIMain;
-        uimain.UIMoveResource.QueueSpendItem(transform, Vector3.zero, goods, 100, (isSpend) =>
-        {
-            if (isSpend)
-                Debug.Log("isSpend true");
-            else
-                Debug.Log("isSpend false");
-        });
-    }
+    
    
 }

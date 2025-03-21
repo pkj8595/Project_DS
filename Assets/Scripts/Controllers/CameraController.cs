@@ -25,8 +25,6 @@ public class CameraController : MonoBehaviour
     }
     private void Start()
     {
-        Managers.Input.KeyAction -= MoveWASD;
-        Managers.Input.KeyAction += MoveWASD;
 
         _cameraTarget.transform.ResetTransform();
         transform.SetPositionAndRotation(_offsetPositionFormTarget,

@@ -70,10 +70,7 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable
 
     private void OnDisable()
     {
-        if (Team == Define.ETeam.Playable)
-        {
-            Managers.Game.Inven.CurrentPopulation--;
-        }
+        
     }
 
     public virtual void Init(SOCharacterData data, bool isUpgrade = false)
@@ -119,7 +116,6 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable
         //stateBar setting
         UIStateBarGroup uiStatebarGroup = Managers.UI.ShowUI<UIStateBarGroup>() as UIStateBarGroup;
         uiStatebarGroup.AddUnit(this);
-        Managers.Game.Inven.CurrentPopulation++;
 
     }
 

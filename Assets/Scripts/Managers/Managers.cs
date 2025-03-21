@@ -5,36 +5,38 @@ using DG.Tweening;
 
 public class Managers : MonoBehaviour
 {
-    static Managers s_Instance;
-    static Managers Instance { get { InitManagers(); return s_Instance; } }
+    public static Managers Instance { get; private set; }
 
-    #region Contens
-    GameManager _game = new GameManager();
-    
-    public static GameManager Game { get { return Instance._game; } }
-    #endregion
-    
-    #region Core
-    DataManager _data = new DataManager();
-    InputManager _input = new InputManager();
-    ResourceManager _resource = new ResourceManager();
-    SoundManager _sound = new SoundManager();
-    UIManager _ui = new UIManager();
-    EffectManager _effect = new EffectManager();
-
-    public static DataManager Data { get { return Instance._data; } }
-    public static InputManager Input { get { return Instance._input; } }
-    public static ResourceManager Resource { get { return Instance._resource; } }
-    public static SoundManager Sound { get { return Instance._sound; } }
-    public static UIManager UI { get { return Instance._ui; } }
+    readonly ResourceManager _resource = new();
+    readonly EffectManager _effect = new();
+    readonly SoundManager _sound = new();
+    readonly DataManager _data = new();
+    readonly UIManager _ui = new();
+    public static DataManager Data { get => Instance._data; }
+    public static ResourceManager Resource { get => Instance._resource; }
+    public static SoundManager Sound { get => Instance._sound; }
+    public static UIManager UI { get => Instance._ui; }
     public static EffectManager Effect { get => Instance._effect; }
-    #endregion
 
-    static bool _isFirstInit = false;
+    //network manager
+    private ObjectManager _object;
+    private MapManager _map;
+    public static ObjectManager Object { get => Instance._object; }
+    public static MapManager Map { get => Instance._map; }
+
 
     private void Awake()
     {
-        
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        InitManagers();
     }
 
     void Start()
@@ -44,42 +46,27 @@ public class Managers : MonoBehaviour
 
     void Update()
     {
-        _input.OnUpdate();
     }
 
-    public static void InitManagers()
+    private void InitManagers()
     {
-        if(s_Instance == null && !_isFirstInit)
-        {
-            _isFirstInit = true;
-            GameObject go = GameObject.Find("@Managers");
-            if (go == null)
-            {
-                go = new GameObject { name = "@Managers" };
-            }
-            DontDestroyOnLoad(go);
-            s_Instance = go.GetOrAddComponent<Managers>();
+        _data.Init();
+        _resource.Init();
+        _sound.Init();
+        _ui.Init(gameObject);
+        _effect.Init();
 
-            s_Instance._data.Init();
-            s_Instance._resource.Init();
-            s_Instance._sound.Init();
-            s_Instance._input.Init(go);
-            s_Instance._ui.Init(go);
-            s_Instance._effect.Init();
-            s_Instance._game.Init();
+        DOTween.Init(true, true, LogBehaviour.Default).SetCapacity(300,40);
 
-            DOTween.Init(true, true, LogBehaviour.Default).SetCapacity(300,40);
-        }
+        _object = GetComponentInChildren<ObjectManager>();
+        _map = GetComponentInChildren<MapManager>();
     }
 
     public static void Clear()
     {
         Data.Clear();
         Resource.Clear();
-        Input.Clear();
         Sound.Clear();
-        UI.Clear();
-        Effect.Clear();
         UI.Clear();
         Effect.Clear();
     }

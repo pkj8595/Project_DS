@@ -25,11 +25,6 @@ public class UI_MoveResource : MonoBehaviour
         ProcessQueue().Forget();
     }
 
-    public void QueueSpendItem(Transform transform, Vector3 offset, Define.EGoodsType goodsType, int amount, Action<bool> action)
-    {
-        spendItemQueue.Enqueue(() => SpendItem(transform, offset, goodsType, amount, action));
-        ProcessQueue().Forget();
-    }
 
     private async UniTaskVoid ProcessQueue()
     {
@@ -57,16 +52,6 @@ public class UI_MoveResource : MonoBehaviour
         isProcessing = false;
     }
 
-    public void SpendItem(Transform worldPosition, Vector3 offset, Define.EGoodsType goodsType, int amount, Action<bool> action)
-    {
-        Vector3 fromPosition = _goodsTransform[GetGoodsIndex(goodsType)].position;
-        bool able = Managers.Game.Inven.SpendItem(goodsType.ToInt(), amount);
-
-        MoveResourceTask(worldPosition, offset, fromPosition, goodsType, amount, able,() =>
-        {
-            action?.Invoke(able);
-        }).Forget();
-    }
 
     public void AddItem(Vector3 worldPosition, Define.EGoodsType goodsType, int amount)
     {
@@ -75,7 +60,7 @@ public class UI_MoveResource : MonoBehaviour
 
         MoveResourceTask(toPosition, fromPosition, goodsType, amount, true, () =>
         {
-            Managers.Game.Inven.AddItem(goodsType.ToInt(), amount);
+            //Managers.Game.Inven.AddItem(goodsType.ToInt(), amount);
         }).Forget();
 
     }

@@ -7,11 +7,6 @@ public abstract class BaseScene : MonoBehaviour
 {
     public Define.Scene SCENE_TYPE { get; protected set; } = Define.Scene.Unknown;
 
-    void Awake()
-    {
-        Managers.InitManagers();
-    }
-
     private void Start()
     {
         Init();
