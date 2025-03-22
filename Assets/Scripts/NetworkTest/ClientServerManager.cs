@@ -5,6 +5,7 @@ public class ClientServerManager : MonoBehaviour
 {
     [SerializeField] private bool isServer;
 
+
     private void Awake()
     {
         if (isServer)

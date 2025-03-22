@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SOSkillAffectData", menuName = "Data/SkillAffect", order = 1)]
+[CreateAssetMenu(fileName = "SOSkillAffectData", menuName = "Data/Skill/SkillAffect", order = 1)]
 public class SOSkillAffectData : SkillEffectBase
 {
     public string title;

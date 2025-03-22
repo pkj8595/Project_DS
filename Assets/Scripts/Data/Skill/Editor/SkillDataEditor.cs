@@ -10,7 +10,7 @@ public class SkillDataEditor : Editor
         SOSkillData skillData = (SOSkillData)target;
 
         EditorGUILayout.Space();
-        EditorGUILayout.ObjectField(skillData.icon, typeof(Sprite), false, GUILayout.Width(64), GUILayout.Height(64));
+        skillData.icon = EditorGUILayout.ObjectField(skillData.icon, typeof(Sprite), false, GUILayout.Width(64), GUILayout.Height(64)) as Sprite;
 
         foreach(var skill in skillData.skills)
         {

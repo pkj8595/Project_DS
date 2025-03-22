@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SOProductionTable", menuName = "Data/SOProductionTable", order = 1)]
+[CreateAssetMenu(fileName = "SOProductionTable", menuName = "Data/ProductionData", order = 1)]
 public class SOProductionTable : SOData
 {
     public string Name;

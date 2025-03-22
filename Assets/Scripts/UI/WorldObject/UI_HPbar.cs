@@ -18,7 +18,7 @@ public class UI_HPbar : MonoBehaviour
     public void Init(IDamageable unit)
     {
         Unit = unit;
-        if (unit.Team == Define.ETeam.Playable)
+        if (unit.Team == Define.ETeam.Player1)
         {
             imgHp.color = Utils.HexToColor("#44fe90");//초록
             imgHpSecond.color = Utils.HexToColor("#aa2406");//어두운 빨강

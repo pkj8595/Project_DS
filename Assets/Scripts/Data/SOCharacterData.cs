@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SOCharacterData", menuName = "Data/Character/SOCharacterData", order = 1)]
+[CreateAssetMenu(fileName = "SOCharacterData", menuName = "Data/Character", order = 1)]
 public class SOCharacterData : SOData
 {
     public string title;

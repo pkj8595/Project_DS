@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SOGoodsData", menuName = "Data", order = 1)]
+[CreateAssetMenu(fileName = "SOGoodsData", menuName = "Data/GoodsData", order = 1)]
 public class SOGoodsData : SOData
 {
     public enum EGoodsType

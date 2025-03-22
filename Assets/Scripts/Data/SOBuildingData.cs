@@ -2,7 +2,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SOBuildingData", menuName = "Data", order = 1)]
+[CreateAssetMenu(fileName = "SOBuildingData", menuName = "Data/Building", order = 1)]
 public class SOBuildingData : SOData
 {
     public Sprite tower;
@@ -13,5 +13,12 @@ public class SOBuildingData : SOData
     public SOSkillData skill;
 
     public SOData[] slot; 
-    public (SOGoodsData data, int cost) upgradeGoods;
+    public GoodsSlot upgradeGoods = new();
+}
+
+[System.Serializable]
+public class GoodsSlot
+{
+    public SOGoodsData data;
+    public int cost;
 }

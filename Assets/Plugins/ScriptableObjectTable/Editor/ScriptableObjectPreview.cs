@@ -7,6 +7,7 @@ using System.Reflection;
 using System;
 using System.IO;
 using System.Linq;
+using System.Collections;
 
 namespace EnlitGames.ScriptableObjectTable
 {
@@ -18,6 +19,7 @@ namespace EnlitGames.ScriptableObjectTable
         static bool showWarningForUndisplayedFields = false;
         static bool hideReadOnlyFields = false;
         bool scale_swap = true;
+        static string basePath = "Assets/Resources/Data/"; // ScriptableObject 경로
 
         [MenuItem("Tools/Scriptable Object Table")]
         public static void ShowExample()
@@ -28,21 +30,58 @@ namespace EnlitGames.ScriptableObjectTable
 
         public void CreateGUI()
         {
+            MakeLeftPaner();
             showWarningForUndisplayedFields = false;
             VisualElement root = rootVisualElement;
+            root.style.flexGrow = 1;  // 창 크기에 맞춰 확장
+            root.style.flexDirection = FlexDirection.Row;
             var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Plugins/ScriptableObjectTable/Editor/ScriptableObjectPreview.uxml");
             VisualElement ScriptableObjectTable = visualTree.Instantiate();
             root.Add(ScriptableObjectTable);
             
 
-            ObjectField ScriptableObjectSelection = root.Query<ObjectField>("ScriptableObjectSelection");
+            /*ObjectField ScriptableObjectSelection = root.Query<ObjectField>("ScriptableObjectSelection");
             ScriptableObjectSelection.RegisterValueChangedCallback((evt) => { PopulateTable((ScriptableObject)evt.newValue); });
-            ScriptableObjectSelection.value = selectedScriptableObject;
+            ScriptableObjectSelection.value = selectedScriptableObject;*/
 
             Toggle HideReadOnlyFields = root.Query<Toggle>("HideReadOnlyFields");
             HideReadOnlyFields.RegisterValueChangedCallback((evt) => { HideReadOnlyFieldsToggled(evt.newValue); });
             HideReadOnlyFields.value = hideReadOnlyFields;
 
+        }
+
+        public void MakeLeftPaner()
+        {
+            VisualElement root = rootVisualElement;
+
+            // 🔹 왼쪽 패널(스크립터블 오브젝트 종류의 버튼들)
+            VisualElement leftPanel = new VisualElement();
+            leftPanel.style.flexDirection = FlexDirection.Column;
+            leftPanel.style.width = 200;
+            leftPanel.style.backgroundColor = new StyleColor(Color.black);
+            root.Add(leftPanel);
+
+            // 🔹 특정 경로에서 스크립터블 오브젝트 종류 가져오기
+            List<string> scriptableObjectPaths = Directory
+                .GetFiles(basePath, "*.asset", SearchOption.AllDirectories)
+                .ToList();
+
+            // 🔹 종류별 버튼 생성
+            foreach (var path in scriptableObjectPaths)
+            {
+                var obj = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
+
+                Button button = new Button(() =>
+                {
+                    // 🔸 선택된 ScriptableObject 필드에 할당
+                    PopulateTable(obj);
+                })
+                {
+                    text = obj.GetType().Name
+                };
+
+                leftPanel.Add(button); // 버튼을 왼쪽 패널에 추가
+            }
         }
 
 
@@ -196,7 +235,7 @@ namespace EnlitGames.ScriptableObjectTable
             else 
             {
                 value = null;
-                visualElement = new Label("null");
+                return visualElement = new Label("null");
             }
             if(value.GetType() == typeof(UnityEngine.Color) || value.GetType() == typeof(UnityEngine.Color32))
             {
@@ -228,9 +267,12 @@ namespace EnlitGames.ScriptableObjectTable
                 visualElement = new BoundsField();
                 ((BoundsField)visualElement).SetValueWithoutNotify(value);
             }
-            if(value.GetType() == typeof(UnityEngine.Transform) || value.GetType() == typeof(UnityEngine.Object) || 
-               value.GetType() == typeof(UnityEngine.GameObject) || value.GetType() == typeof(UnityEngine.Component) || 
-               value.GetType().IsSubclassOf(typeof(ScriptableObject)) || value.GetType() == typeof(Sprite))
+            if(value.GetType() == typeof(UnityEngine.Transform) ||
+                value.GetType() == typeof(UnityEngine.Object) || 
+               value.GetType() == typeof(UnityEngine.GameObject) ||
+               value.GetType() == typeof(UnityEngine.Component) || 
+               value.GetType().IsSubclassOf(typeof(ScriptableObject)) ||
+               value.GetType() == typeof(Sprite))
             {
                 visualElement = new ObjectField();
                 ((ObjectField)visualElement).objectType = value.GetType();
@@ -292,7 +334,45 @@ namespace EnlitGames.ScriptableObjectTable
                 visualElement = new TextField();
                 ((TextField)visualElement).SetValueWithoutNotify(value);
             }
-            
+            if (value is IList listValue) // 배열이나 List<T> 타입인지 확인
+            {
+                Foldout listFoldout = new Foldout() { text = "List/Array" };  // 펼칠 수 있는 리스트 헤더
+                listFoldout.value = true;  // 기본값으로 펼쳐진 상태
+
+                for (int i = 0; i < listValue.Count; i++)
+                {
+                    var item = listValue[i];
+
+                    // 개별 항목에 맞는 UI 필드 생성 (예: int, string 등 처리)
+                    VisualElement itemField;
+                    if (item is int)
+                    {
+                        IntegerField intField = new IntegerField($"Element {i}") { value = (int)item };
+                        itemField = intField;
+                    }
+                    else if (item is string)
+                    {
+                        TextField textField = new TextField($"Element {i}") { value = (string)item };
+                        itemField = textField;
+                    }
+                    else if (item is float)
+                    {
+                        FloatField floatField = new FloatField($"Element {i}") { value = (float)item };
+                        itemField = floatField;
+                    }
+                    else
+                    {
+                        // 다른 타입의 항목에 대해 기본 처리를 할 수 있음
+                        Label unsupportedLabel = new Label($"Element {i}: Unsupported Type");
+                        itemField = unsupportedLabel;
+                    }
+
+                    listFoldout.Add(itemField);  // 리스트의 개별 항목 필드를 Foldout에 추가
+                }
+
+                visualElement = listFoldout;  // 최종적으로 Foldout을 visualElement로 할당
+            }
+
             return visualElement;
         }
 

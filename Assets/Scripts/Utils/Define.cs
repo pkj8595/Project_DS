@@ -109,8 +109,8 @@ public class Define
 
     public enum ETeam
     {
-        Playable,
-        Enemy,
+        Player1,
+        Player2,
     }
 
     public enum EDamageType

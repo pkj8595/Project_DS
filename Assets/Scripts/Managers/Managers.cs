@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using FishNet.Object;
 
-public class Managers : MonoBehaviour
+public class Managers : NetworkBehaviour
 {
     public static Managers Instance { get; private set; }
 
@@ -21,8 +22,10 @@ public class Managers : MonoBehaviour
     //network manager
     private ObjectManager _object;
     private MapManager _map;
+    private GameManager _game;
     public static ObjectManager Object { get => Instance._object; }
     public static MapManager Map { get => Instance._map; }
+    public static GameManager Game { get => Instance._game; }
 
 
     private void Awake()
@@ -33,19 +36,7 @@ public class Managers : MonoBehaviour
             return;
         }
 
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-
         InitManagers();
-    }
-
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
     }
 
     private void InitManagers()
@@ -60,6 +51,7 @@ public class Managers : MonoBehaviour
 
         _object = GetComponentInChildren<ObjectManager>();
         _map = GetComponentInChildren<MapManager>();
+        _game = GetComponentInChildren<GameManager>();
     }
 
     public static void Clear()

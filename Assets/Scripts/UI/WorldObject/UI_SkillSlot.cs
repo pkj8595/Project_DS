@@ -20,7 +20,7 @@ public class UI_SkillSlot : UI_Slot
         _imgCoolTime.fillAmount = 1.0f;
     }
 
-    public void Update()
+    private void FixedUpdate()
     {
         if (this.gameObject.activeSelf && _skill != null)
         {
@@ -38,10 +38,13 @@ public class UI_SkillSlot : UI_Slot
 
     public override string SetDescStr()
     {
-        SOSkillData data;//= Managers.Data.SkillDict[_skill.TableNum];
+        SOSkillData data = _skill.data;
         System.Text.StringBuilder str = new();
         str.Append(_skill.Desc);
         str.Append("\n\n");
+        str.Append($"desc : {data.desc}\n");
+        str.Append($"require Mana : {data.requireMana}\n");
+        str.Append($"coolTime :{data.coolTime}\n");
 
         return str.ToString();
     }

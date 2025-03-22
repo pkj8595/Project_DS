@@ -5,17 +5,17 @@ using UnityEngine;
 public class BuildingBase : Unit
 {
     [SerializeField] private SOBuildingData buildingData;
-    [SerializeField] private Collider _collider;
+    [SerializeField] private Collider2D _collider;
     [SerializeField] private Sprite _sprite;
 
     [field: SerializeField] public Vector3 StateBarOffset { get; set; }
-    [field: SerializeField] public Define.ETeam Team { get; set; } = Define.ETeam.Playable;
+    [field: SerializeField] public Define.ETeam Team { get; set; } = Define.ETeam.Player1;
     public Define.WorldObject WorldObjectType { get; set; } = Define.WorldObject.Building;
 
     protected BuildingDamageable _damageable;
     public Stat Stat { get; private set; }
     public UnitSkill Skill { get; protected set; } = new();
-    public Collider Collider { get => _collider; set => _collider = value; }
+    public Collider2D Collider { get => _collider; set => _collider = value; }
     public bool IsSelected { get; set; }
 
     public int BuildingTableNum;
@@ -37,7 +37,7 @@ public class BuildingBase : Unit
         if (data.isDamageable)
         {
             if (_collider == null)
-                _collider = GetComponent<Collider>();
+                _collider = GetComponent<Collider2D>();
             _damageable = gameObject.GetOrAddComponent<BuildingDamageable>();
             _damageable.Init(this);
 
@@ -46,12 +46,13 @@ public class BuildingBase : Unit
         }
         else
         {
-            var skill = GetComponent<BuildingDamageable>();
-            if (skill != null)
+            
+            var damageable = _damageable != null? _damageable : GetComponent<BuildingDamageable>();
+            if (damageable != null)
             {
                 UIStateBarGroup uiStatebarGroup = Managers.UI.ShowUI<UIStateBarGroup>() as UIStateBarGroup;
                 uiStatebarGroup.RemoveUnit(_damageable);
-                Destroy(skill);
+                Destroy(damageable);
             }
         }
 

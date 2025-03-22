@@ -37,7 +37,7 @@ public class UnitAI
     /// </summary>
     public bool CheckOutRangeTarget() 
     {
-        if (SearchRange + 3 < Vector3.Distance(Pawn.LockTarget.GetTransform().position, Pawn.transform.position) && Pawn.Team == Define.ETeam.Playable)
+        if (SearchRange + 3 < Vector3.Distance(Pawn.LockTarget.GetTransform().position, Pawn.transform.position) && Pawn.Team == Define.ETeam.Player1)
         {
             //SetState(GetReturnToBase());
             return true;

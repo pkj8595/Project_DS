@@ -5,14 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SOSkillData", menuName = "Data/Skill", order = 1)]
+[CreateAssetMenu(fileName = "SOSkillData", menuName = "Data/Skill/SkillBase", order = 1)]
 public class SOSkillData : SOData
 {
     public string skillName;
     public string desc;
     public Sprite icon;
     public float coolTime;
-    public float requireMane;
+    public float requireMana;
     [Space]
     public SkillMotionControlBase castingMotion;
     public SkillMotionControlBase trigerMotion;

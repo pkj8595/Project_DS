@@ -12,7 +12,7 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable
 
     //설정
     public Define.WorldObject WorldObjectType { get; set; } = Define.WorldObject.Pawn;
-    [field: SerializeField] public Define.ETeam Team { get; set; } = Define.ETeam.Playable;
+    [field: SerializeField] public Define.ETeam Team { get; set; } = Define.ETeam.Player1;
     [field : SerializeField] protected Vector3 DestPos { get; set; }
     [field : SerializeField] public Vector3 OriginPosition { get; set; }
     [SerializeField] protected Define.EPawnAniState _state = Define.EPawnAniState.Idle;
@@ -36,7 +36,7 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable
     private float speed = 2f;
 
     //component
-    [SerializeField] private Collider _collider;
+    [SerializeField] private Collider2D _collider;
     [field: SerializeField] public string AIStateStr { get; set; }
 
     public bool IsSelected { get; set; }
@@ -85,7 +85,7 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable
 
         if (_collider == null)
         {
-            _collider = GetComponent<Collider>();
+            _collider = GetComponent<Collider2D>();
         }
 
         if (_pawnMove == null)
@@ -253,7 +253,7 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable
         return PawnStat;
     }
 
-    public Collider GetCollider()
+    public Collider2D GetCollider()
     {
         return _collider;
     }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SOSkillData", menuName = "Data", order = 1)]
+[CreateAssetMenu(fileName = "SOStatData", menuName = "Data/SOStatData", order = 1)]
 public class SOStatData : SOData
 {
     public Define.EStatDataType statDataType;

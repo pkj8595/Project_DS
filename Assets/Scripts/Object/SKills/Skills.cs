@@ -4,7 +4,7 @@ using UnityEngine;
 // 기본 스킬 클래스
 public class Skill
 {
-    private SOSkillData data;
+    public SOSkillData data { get; private set; }
     public Sprite Icon { get => data.icon; }
     public string Name { get => data.name; }
     public string Desc { get => data.desc; }
@@ -52,7 +52,7 @@ public class Skill
         if (IsReady(attacker.Mana))
         {
             LastRunTime = Time.time;
-            attacker.Mana -= data.requireMane;
+            attacker.Mana -= data.requireMana;
             return true;
         }
         return false;
@@ -72,7 +72,7 @@ public class Skill
 
     public bool IsUseableMana(float mana)
     {
-        return mana >= data.requireMane; 
+        return mana >= data.requireMana; 
     }
 
 

@@ -40,7 +40,7 @@ public class BuildingDamageable : MonoBehaviour, IDamageable
         return _buildingBase.Stat.IsDead;
     }
 
-    public Collider GetCollider()
+    public Collider2D GetCollider()
     {
         return _buildingBase.Collider;
     }

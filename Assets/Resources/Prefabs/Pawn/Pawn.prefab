@@ -183,6 +183,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6623756325375741247}
+  - {fileID: 3843845402687861265}
   m_Father: {fileID: 6834267158829301280}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6623756326569235258
@@ -261,7 +262,6 @@ GameObject:
   - component: {fileID: 6834267158829301280}
   - component: {fileID: 9092994966572238061}
   - component: {fileID: 705035529133047113}
-  - component: {fileID: 8088009069966384495}
   - component: {fileID: 741800065563304740}
   m_Layer: 9
   m_Name: Pawn
@@ -306,8 +306,7 @@ MonoBehaviour:
   _projectileTrans: {fileID: 4429359987017351780}
   <AniController>k__BackingField: {fileID: 141670392}
   <_pawnMove>k__BackingField: {fileID: 741800065563304740}
-  <RuneList>k__BackingField: []
-  _collider: {fileID: 8088009069966384495}
+  _collider: {fileID: 0}
   <AIStateStr>k__BackingField: 
   _testCharacterNum: 101001001
 --- !u!114 &705035529133047113
@@ -324,55 +323,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hp: 0
   _mana: 0
-  _combatStat:
-    maxHp: 0
-    maxMana: 0
-    meleeDamage: 0
-    rangedDamage: 0
-    magicDamage: 0
-    protection: 0
-    baseSkillCooldown: 0
-    movementSpeed: 0
-    criticalHitChance: 0
-    dodgepChance: 0
-    skillCooldown: 0
-    statusEffectResistance: 0
-    balance: 0
-    hpRegeneration: 0
-    manaRegeneration: 0
-    searchRange: 0
-  _currentBaseStat:
-    vitality: 0
-    strength: 0
-    agility: 0
-    intelligence: 0
-    willpower: 0
-    accuracy: 0
   <KillCount>k__BackingField: 0
-  <WaveCount>k__BackingField: 0
---- !u!136 &8088009069966384495
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6834267158829301281}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.4
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &741800065563304740
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,3 +340,72 @@ MonoBehaviour:
   _stopDistance: 0.05
   _isMove: 0
   _destPos: {x: 0, y: 0, z: 0}
+--- !u!1 &6840317421507613686
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3843845402687861265}
+  - component: {fileID: 6082384647091838963}
+  m_Layer: 9
+  m_Name: Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3843845402687861265
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6840317421507613686}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6623756326569235263}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &6082384647091838963
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6840317421507613686}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.5}
+  m_Size: {x: 0.56, y: 1}
+  m_Direction: 0
