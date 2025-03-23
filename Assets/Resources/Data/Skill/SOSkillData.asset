@@ -23,5 +23,5 @@ MonoBehaviour:
   _trigerMotion: 1
   skills:
   - targeting: {fileID: 11400000, guid: 38d7b0330a5169d41aae71401c1bd90a, type: 2}
-    effects: []
-    visualEffects: []
+    effects:
+    - {fileID: 11400000, guid: 1cadb84ca3851f34bb3ab3ff5011a0b7, type: 2}

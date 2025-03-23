@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using System.Threading.Tasks;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "TargetProjectile", menuName = "Data/Skill/Affect/TargetProjectile", order = 1)]
 public class SOSkillEffect_TargetProjectile : SkillEffectBase
 {
     GameObject projectilePrafab;

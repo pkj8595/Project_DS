@@ -67,9 +67,9 @@ public class BuildingBase : Unit
         }
     }
 
-    public override bool UpgradeUnit()
+   /* public override bool UpgradeUnit()
     {
-        /*if (BuildingData.upgradeNum == 0 || Team == Define.ETeam.Enemy)
+        *//*if (BuildingData.upgradeNum == 0 || Team == Define.ETeam.Enemy)
         {
             Managers.UI.ShowToastMessage("적은 업그레이드 할 수 없습니다.");
             return false;
@@ -79,11 +79,11 @@ public class BuildingBase : Unit
         {
             Init(BuildingData.upgradeNum);
             return true;
-        }*/
+        }*//*
 
         Managers.UI.ShowToastMessage("업그레이드 비용이 부족합니다.");
         return false;
-    }
+    }*/
 
     private void OnChagneStatValue()
     {

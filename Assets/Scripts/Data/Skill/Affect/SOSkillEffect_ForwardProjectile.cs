@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using GameKit.Dependencies.Utilities.ObjectPooling.Examples;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "ForwardProjectile", menuName = "Data/Skill/Affect/ForwardProjectile", order = 1)]
 public class SOSkillEffect_ForwardProjectile : SkillEffectBase
 {
     public GameObject projectilePrefab;
