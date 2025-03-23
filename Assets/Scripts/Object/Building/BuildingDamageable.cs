@@ -5,9 +5,10 @@ using UnityEngine;
 public class BuildingDamageable : MonoBehaviour, IDamageable
 {
     public Define.ETeam Team { get=> _buildingBase.Team;}
-    public Define.WorldObject WorldObjectType { get => _buildingBase.WorldObjectType; }
 
     public Vector3 StateBarOffset => _buildingBase.StateBarOffset;
+
+    public Transform ProjectileTF => throw new System.NotImplementedException();
 
     [SerializeField] private Vector3 BuildingStateBarOffset;
 

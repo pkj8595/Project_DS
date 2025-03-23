@@ -18,16 +18,17 @@ public class SpawnPlayer : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)]
     private void PlayerSpawn(NetworkConnection client = null)
     {
-        GameObject obj = Instantiate(_playerPrefab);
-        Spawn(obj, client);
-
-        if (_spawnCount >= _spawnPoints.Length)
+        if (!(_spawnCount < _spawnPoints.Length))
             return;
         
+        GameObject obj = Instantiate(_playerPrefab);
         obj.transform.SetPositionAndRotation(_spawnPoints[_spawnCount].position, _spawnPoints[_spawnCount].rotation);
         var playerController = obj.GetComponent<PlayerController>();
         playerController.PlayerIndex = _spawnCount;
         Managers.Game.SetPlayer(playerController);
         _spawnCount++;
+
+        Spawn(obj, client);
+
     }
 }

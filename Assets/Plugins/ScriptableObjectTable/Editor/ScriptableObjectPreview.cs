@@ -66,10 +66,15 @@ namespace EnlitGames.ScriptableObjectTable
                 .GetFiles(basePath, "*.asset", SearchOption.AllDirectories)
                 .ToList();
 
-            // 🔹 종류별 버튼 생성
+            List<ScriptableObject> objs = new();
             foreach (var path in scriptableObjectPaths)
             {
-                var obj = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
+                objs.Add(AssetDatabase.LoadAssetAtPath<ScriptableObject>(path)) ;
+            }
+
+            // 🔹 종류별 버튼 생성
+            foreach (var obj in objs)
+            {
 
                 Button button = new Button(() =>
                 {
@@ -336,41 +341,8 @@ namespace EnlitGames.ScriptableObjectTable
             }
             if (value is IList listValue) // 배열이나 List<T> 타입인지 확인
             {
-                Foldout listFoldout = new Foldout() { text = "List/Array" };  // 펼칠 수 있는 리스트 헤더
-                listFoldout.value = true;  // 기본값으로 펼쳐진 상태
-
-                for (int i = 0; i < listValue.Count; i++)
-                {
-                    var item = listValue[i];
-
-                    // 개별 항목에 맞는 UI 필드 생성 (예: int, string 등 처리)
-                    VisualElement itemField;
-                    if (item is int)
-                    {
-                        IntegerField intField = new IntegerField($"Element {i}") { value = (int)item };
-                        itemField = intField;
-                    }
-                    else if (item is string)
-                    {
-                        TextField textField = new TextField($"Element {i}") { value = (string)item };
-                        itemField = textField;
-                    }
-                    else if (item is float)
-                    {
-                        FloatField floatField = new FloatField($"Element {i}") { value = (float)item };
-                        itemField = floatField;
-                    }
-                    else
-                    {
-                        // 다른 타입의 항목에 대해 기본 처리를 할 수 있음
-                        Label unsupportedLabel = new Label($"Element {i}: Unsupported Type");
-                        itemField = unsupportedLabel;
-                    }
-
-                    listFoldout.Add(itemField);  // 리스트의 개별 항목 필드를 Foldout에 추가
-                }
-
-                visualElement = listFoldout;  // 최종적으로 Foldout을 visualElement로 할당
+                value = null;
+                return visualElement = new Label("List");
             }
 
             return visualElement;

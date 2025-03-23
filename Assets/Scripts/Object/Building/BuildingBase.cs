@@ -9,8 +9,7 @@ public class BuildingBase : Unit
     [SerializeField] private Sprite _sprite;
 
     [field: SerializeField] public Vector3 StateBarOffset { get; set; }
-    [field: SerializeField] public Define.ETeam Team { get; set; } = Define.ETeam.Player1;
-    public Define.WorldObject WorldObjectType { get; set; } = Define.WorldObject.Building;
+    //[field: SerializeField] public Define.ETeam Team { get; set; } = Define.ETeam.Player1;
 
     protected BuildingDamageable _damageable;
     public Stat Stat { get; private set; }

@@ -22,5 +22,5 @@ MonoBehaviour:
   slot:
   - {fileID: 0}
   upgradeGoods:
-    data: {fileID: 0}
-    cost: 0
+    data: {fileID: 11400000, guid: 359ebf3ae6bfccd409eb67610f36cdfe, type: 2}
+    cost: 10

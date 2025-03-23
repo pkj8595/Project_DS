@@ -14,7 +14,7 @@ public class Define
     /// worldObject 상태
     /// </summary>
 
-    public enum WorldObject
+    public enum UnitType
     {
         Unknown,
         Pawn,
@@ -50,12 +50,13 @@ public class Define
         Cool
     }
 
-    public enum EParentObj
+    public enum ESkillMotion
     {
-        Pawn,
-        Projectile,
-        Effect,
+        Casting,
+        Slash,
+        Shot,
     }
+
 
     public enum Scene
     {
@@ -84,22 +85,6 @@ public class Define
         RClick,
     }
 
-    public enum Tags
-    {
-        Pawn
-    }
-
-    public enum EBaseStat
-    {
-        Vitality,       //체력
-        Strength,       //힘
-        Agility,        //민첩
-        Intelligence,   //지력
-        Willpower,      //정신력
-        Accuracy,       //정확성
-        Count
-    }
-
     public enum ETargetType
     {
         Self,
@@ -113,21 +98,6 @@ public class Define
         Player2,
     }
 
-    public enum EDamageType
-    {
-        Melee,
-        Ranged,
-        Magic,
-        Tower,
-    }
-
-    public enum EAffectType
-    {
-        Damage,
-        Heal,
-        Debuff,
-        Buff,
-    }
 
     public enum EAttributeType
     {
@@ -139,21 +109,6 @@ public class Define
         Ice,//얼음
         Dark,//어둠
         Light,//빛
-    }
-
-    public enum ESkillType
-    {
-        one,
-        Area,
-    }
-
-    
-
-    public enum EEffectType
-    {
-        Common,
-        Flesh,
-        Dot,
     }
 
     public enum ESkillDistanceType

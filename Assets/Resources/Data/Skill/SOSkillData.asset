@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: SOSkillData
   m_EditorClassIdentifier: 
   tableNum: 0
-  skillName: 
-  desc: 
-  icon: {fileID: 21300000, guid: 719432df88524ff29649d14716970c62, type: 3}
-  coolTime: 0
-  requireMane: 0
+  skillName: "\uADFC\uAC70\uB9AC \uC77C\uBC18\uACF5\uACA9 1"
+  desc: "\uC77C\uBC18 \uACF5\uACA9"
+  icon: {fileID: -555905015, guid: 16b90a5bf3bceb34cbd9d69ccf3dc843, type: 3}
+  coolTime: 1
+  requireMana: 0
+  unitType: 0
+  _castringMotion: 0
+  _trigerMotion: 1
   skills:
-  - targeting: {fileID: 11400000, guid: ab307abde63c38445ac41a287e448531, type: 2}
-    effects:
-    - {fileID: 11400000, guid: 9b4ef8f1514b0314897090f1b0d390a1, type: 2}
+  - targeting: {fileID: 11400000, guid: 38d7b0330a5169d41aae71401c1bd90a, type: 2}
+    effects: []
     visualEffects: []

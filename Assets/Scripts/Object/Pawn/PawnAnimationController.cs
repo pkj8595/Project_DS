@@ -65,6 +65,11 @@ public class PawnAnimationController : MonoBehaviour
         _pawnBase.EndAniAttack();
     }
 
+    public void OnCallAnimationKey(string keyname)
+    {
+        Debug.Log(keyname);
+    }
+
     public Sprite GetIdleSprite()
     {
         return spriteLibrary.GetSprite("Idle", "0");

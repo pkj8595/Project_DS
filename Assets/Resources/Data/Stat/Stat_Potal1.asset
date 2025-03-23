@@ -16,7 +16,7 @@ MonoBehaviour:
   statDataType: 1
   hp: 10
   mana: 10
-  attack: 1
+  attack: 0
   defence: 0
   baseSkillCooldown: 10
   skillCooldown: 10

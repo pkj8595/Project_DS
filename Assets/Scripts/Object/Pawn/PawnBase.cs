@@ -5,18 +5,17 @@ using UnityEngine;
 using UnityEngine.AI;
 using Cysharp.Threading.Tasks;
 
-public abstract class PawnBase :Unit, IDamageable, IAttackable
+public abstract class PawnBase :Unit, IDamageable
 {
     //data
     public SOCharacterData CharacterData { get; private set; }
 
     //설정
-    public Define.WorldObject WorldObjectType { get; set; } = Define.WorldObject.Pawn;
-    [field: SerializeField] public Define.ETeam Team { get; set; } = Define.ETeam.Player1;
     [field : SerializeField] protected Vector3 DestPos { get; set; }
     [field : SerializeField] public Vector3 OriginPosition { get; set; }
     [SerializeField] protected Define.EPawnAniState _state = Define.EPawnAniState.Idle;
     [SerializeField] protected Transform _projectileTrans;
+    public Transform ProjectileTF => _projectileTrans;
 
     //pawn 기능
     [field : SerializeField] public PawnAnimationController AniController { get; private set; }
@@ -151,8 +150,6 @@ public abstract class PawnBase :Unit, IDamageable, IAttackable
         //projectile 발사
         Skill skill = PawnSkills.GetRunnigSkill();
         DamageMessage msg = new DamageMessage(PawnStat,
-                                           Vector3.zero,
-                                           Vector3.zero,
                                            skill);
         
     }

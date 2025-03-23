@@ -12,8 +12,14 @@ public class MapManager : NetworkBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int cellPos = _grid.WorldToCell(mousePos);
-            Debug.Log(cellPos);
+            GetGridPos(mousePos);
         }
+    }
+
+    private void GetGridPos(Vector3 targetPos)
+    {
+        Vector3Int cellWorldToCellPos = _grid.WorldToCell(targetPos);
+        Vector2Int cell2Pos = new Vector2Int(cellWorldToCellPos.x, cellWorldToCellPos.y);
+        Debug.Log(cell2Pos);
     }
 }
