@@ -93,14 +93,14 @@ public class Skill
 
         foreach (var skill in skillData.skills)
         {
+            //todo 스킬 첫 타겟팅 구현 or 첫 타겟팅을 구하고 다름 타겟팅에 전달?
             List<IDamageable> targets = skill.targeting.GetTargets(caster); // 타겟 스냅샷 저장
 
             // 애니메이션 시작 및 대기
-            //UniTask animationTask = caster.PlaySkillAnimation(skill); // 애니메이션 시작 (예시)
-            //await animationTask; // 애니메이션이 끝나고 실행
+            await caster.SkillMotion.RunAnimation(skillData.trigerSkillMotion,skillData.trigerDelayTime);
 
             // 스킬 실행 시점에 타겟이 유효한지 다시 확인
-            List<IDamageable> validTargets = targets.Where(t => !t.IsDead()).ToList();
+            List<IDamageable> validTargets = targets.Where(t => !t.IsDead).ToList();
 
             if (validTargets.Count == 0)
             {

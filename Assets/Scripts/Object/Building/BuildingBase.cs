@@ -7,9 +7,9 @@ public class BuildingBase : Unit
     [SerializeField] private SOBuildingData buildingData;
     [SerializeField] private Collider2D _collider;
     [SerializeField] private Sprite _sprite;
-
+    [field: SerializeField] public Define.ETeam Team { get; set; }
     [field: SerializeField] public Vector3 StateBarOffset { get; set; }
-    //[field: SerializeField] public Define.ETeam Team { get; set; } = Define.ETeam.Player1;
+    [field : SerializeField] public BuildingAniController AniController { get; private set; }
 
     protected BuildingDamageable _damageable;
     public Stat Stat { get; private set; }
@@ -17,7 +17,6 @@ public class BuildingBase : Unit
     public Collider2D Collider { get => _collider; set => _collider = value; }
     public bool IsSelected { get; set; }
 
-    public int BuildingTableNum;
 
     public void Init()
     {

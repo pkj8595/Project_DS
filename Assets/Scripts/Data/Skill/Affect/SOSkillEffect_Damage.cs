@@ -9,7 +9,7 @@ public class SOSkillEffect_Damage : SkillEffectBase
     public override UniTask ApplyEffect(IDamageable caster, IDamageable target)
     {
         //todo
-        target.GetStat().Hp -= damagePer;
+        target.GetIStat().Hp -= damagePer;
         return UniTask.CompletedTask;
     }
 

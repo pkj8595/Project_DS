@@ -24,10 +24,10 @@ public class SOSkillEffect_TargetProjectile : SkillEffectBase
         while (projectile != null && target != null)
         {
             projectile.transform.position = Vector3.MoveTowards(projectile.transform.position,
-                                                                target.GetTransform().position,
+                                                                target.                                                                Transform.position,
                                                                 speed * Time.deltaTime);
 
-            if (Vector3.Distance(projectile.transform.position, target.GetTransform().position) < 0.1f)
+            if (Vector3.Distance(projectile.transform.position, target.Transform.position) < 0.1f)
                 break;
 
             await UniTask.Yield();

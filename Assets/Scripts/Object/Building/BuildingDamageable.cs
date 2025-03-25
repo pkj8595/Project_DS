@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class BuildingDamageable : MonoBehaviour, IDamageable
 {
-    public Define.ETeam Team { get=> _buildingBase.Team;}
-
-    public Vector3 StateBarOffset => _buildingBase.StateBarOffset;
-
-    public Transform ProjectileTF => throw new System.NotImplementedException();
-
+    private BuildingBase _buildingBase;
     [SerializeField] private Vector3 BuildingStateBarOffset;
+    public Define.ETeam Team { get=> _buildingBase.Team;}
+    public Vector3 StateBarOffset => _buildingBase.StateBarOffset;
+    public Transform ProjectileTF => throw new System.NotImplementedException();
+    public Stat Stat => _buildingBase.Stat;
+    public ISkillMotion SkillMotion => _buildingBase.AniController;
+    public Transform Transform => transform;
+    public Collider2D Collider => _buildingBase.Collider;
+    public bool IsDead => _buildingBase.Stat.IsDead;
+    public virtual IStat GetIStat() => _buildingBase.Stat;
 
-    BuildingBase _buildingBase;
     public void Init(BuildingBase buildingBase)
     {
         _buildingBase = buildingBase;
@@ -26,23 +29,5 @@ public class BuildingDamageable : MonoBehaviour, IDamageable
         return false;
     }
 
-    public virtual IStat GetStat()
-    {
-        return _buildingBase.Stat;
-    }
 
-    public Transform GetTransform()
-    {
-        return transform;
-    }
-
-    public bool IsDead()
-    {
-        return _buildingBase.Stat.IsDead;
-    }
-
-    public Collider2D GetCollider()
-    {
-        return _buildingBase.Collider;
-    }
 }

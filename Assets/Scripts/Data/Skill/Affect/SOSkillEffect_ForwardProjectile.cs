@@ -12,7 +12,7 @@ public class SOSkillEffect_ForwardProjectile : SkillEffectBase
 
     public override async UniTask ApplyEffect(IDamageable caster, IDamageable target)
     {
-        GameObject projectile = GameObject.Instantiate(projectilePrefab, caster.GetTransform().position, Quaternion.identity);
+        GameObject projectile = GameObject.Instantiate(projectilePrefab, caster.Transform.position, Quaternion.identity);
         var projectileComponent = projectile.GetComponent<ProjectileComponent>();
 
         // 충돌 시 실행할 효과 정의

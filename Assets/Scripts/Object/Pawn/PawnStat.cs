@@ -38,7 +38,7 @@ public class PawnStat : Stat
         }
 
         //todo effectManager damageNum
-        float damage = Mathf.Max(0, CalculateDamage(damageAmount, _originData.defence));
+        float damage = Mathf.Max(0, CalculateDamagePerProtection(damageAmount, _originData.defence));
         Hp -= damage;
         if (Hp < 0)
         {

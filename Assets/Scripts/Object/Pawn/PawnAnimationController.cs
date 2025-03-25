@@ -3,7 +3,7 @@ using PixelHero = Assets.PixelFantasy.PixelHeroes.Common.Scripts.CharacterScript
 using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 
-public class PawnAnimationController : MonoBehaviour
+public class PawnAnimationController : MonoBehaviour, ISkillMotion
 {
     public PixelHero.CharacterBuilder _pawnBuilder;
     public Animator _animator;
@@ -13,6 +13,9 @@ public class PawnAnimationController : MonoBehaviour
     public SpriteRenderer Body;
     private static Material DefaultMaterial;
     private static Material BlinkMaterial;
+
+    public bool IsPlaying { get; set; }
+
     //todo : particleManager 만들기
     //[SerializeField] private ParticleSystem _moveDust;
 
@@ -57,17 +60,12 @@ public class PawnAnimationController : MonoBehaviour
 
     public void OnBeginAttack()
     {
-        _pawnBase.BegineAniAttack();
+        IsPlaying = false;
     }
 
     public void OnEndAttack()
     {
         _pawnBase.EndAniAttack();
-    }
-
-    public void OnCallAnimationKey(string keyname)
-    {
-        Debug.Log(keyname);
     }
 
     public Sprite GetIdleSprite()
@@ -99,5 +97,37 @@ public class PawnAnimationController : MonoBehaviour
 
         Body.material = DefaultMaterial;
     }
+
+    public async UniTask RunAnimation(ESkillMotionTriger triger, float delay)
+    {
+        IsPlaying = true;
+
+        switch (triger)
+        {
+            case ESkillMotionTriger.Cast:
+                {
+                    SetAniState(Define.EPawnAniState.Casting);
+                    await UniTask.Delay((int)(delay * 1000), 
+                                        cancellationToken: destroyCancellationToken);
+                    SetAniState(Define.EPawnAniState.Idle);
+                }
+                break;
+            case ESkillMotionTriger.MeleeAttack:
+                {
+                    SetAniTrigger(Define.EPawnAniTriger.Slash);
+                    await UniTask.WaitUntil(() => IsPlaying is false, 
+                                            cancellationToken: destroyCancellationToken);
+                }
+                break;
+            case ESkillMotionTriger.RangedAttack:
+                {
+                    SetAniTrigger(Define.EPawnAniTriger.Shot);
+                    await UniTask.WaitUntil(() => IsPlaying is false, 
+                                            cancellationToken: destroyCancellationToken);
+                }
+                break;
+        }
+    }
+
 
 }

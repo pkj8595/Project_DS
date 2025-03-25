@@ -89,7 +89,7 @@ public abstract class Stat : MonoBehaviour, IStat
     //공격 당했을때
     public virtual void OnAttacked(float damageAmount, Stat attacker) 
     {
-        float damage = Mathf.Max(0, CalculateDamage(damageAmount, Defence));
+        float damage = Mathf.Max(0, CalculateDamagePerProtection(damageAmount, Defence));
         Hp -= damage;
         if (Hp < 0)
         {
@@ -98,7 +98,7 @@ public abstract class Stat : MonoBehaviour, IStat
         }
     }
 
-    protected float CalculateDamage(float damage, float protection)
+    public float CalculateDamagePerProtection(float damage, float protection)
     {
         if (0 <= protection)
         {

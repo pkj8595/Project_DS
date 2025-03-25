@@ -9,17 +9,19 @@ public interface IDamageable
     public Transform ProjectileTF { get; }
 
     public abstract bool ApplyTakeDamage(DamageMessage message);
-    public abstract Transform GetTransform();
-    public abstract Collider2D GetCollider();
-    public abstract bool IsDead();
-    public IStat GetStat();
+    public abstract Transform Transform { get; }
+    public abstract Collider2D Collider { get; }
+
+    public abstract bool IsDead { get; }
+
+    public ISkillMotion SkillMotion { get; }
+    public IStat GetIStat();
+    public Stat Stat { get; }
 
 }
 
 
 public class Unit : MonoBehaviour
 {
-    public Define.ETeam Team { get; set; }
-    public virtual bool UpgradeUnit() { return false; }
-    public bool IsAlive { get; set; }
+
 }

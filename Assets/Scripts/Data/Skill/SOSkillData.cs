@@ -14,17 +14,17 @@ public class SOSkillData : SOData
     public Sprite icon;
     public float coolTime;
     public float requireMana;
-    public Define.UnitType unitType;
+
     [Space]
-    [ShowIfEnumAttribute("unitType", (int)Define.UnitType.Pawn)]
-    public Define.EPawnAniTriger _castringMotion;
+    public ESkillMotionTriger trigerSkillMotion;
+    [ShowIfEnum("trigerSkillMotion",(int)ESkillMotionTriger.Cast)]
+    public float trigerDelayTime;
 
-    public Define.EPawnAniTriger _trigerMotion;
+    [Space]
+    public ESkillMotionTriger castSkillMotion;
+    [ShowIfEnum("castSkillMotion", (int)ESkillMotionTriger.Cast)]
+    public float castDelayTime;
 
-    
-
-    //public SkillMotionControlBase castingMotion;
-    //public SkillMotionControlBase trigerMotion;
     public SkillGroup[] skills;
 
 }

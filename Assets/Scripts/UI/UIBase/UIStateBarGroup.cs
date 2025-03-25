@@ -33,14 +33,14 @@ public class UIStateBarGroup : UIBase
     {
         foreach (var unit in _dicUnit)
         {
-            if (unit.Key == null || unit.Key.IsDead())
+            if (unit.Key == null || unit.Key.IsDead)
             {
                 unit.Value.gameObject.SetActive(false);
                 continue;
             }
 
             // 화면에서 보이는지 여부 확인
-            Vector3 worldPosition = unit.Key.GetTransform().position + unit.Key.StateBarOffset;
+            Vector3 worldPosition = unit.Key.Transform.position + unit.Key.StateBarOffset;
             Vector3 screenPosition = Camera.main.WorldToScreenPoint(worldPosition);
 
             //화면 노출 여부

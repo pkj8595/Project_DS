@@ -9,6 +9,7 @@ public abstract class PawnBase :Unit, IDamageable
 {
     //data
     public SOCharacterData CharacterData { get; private set; }
+    public Define.ETeam Team { get; set; }
 
     //설정
     [field : SerializeField] protected Vector3 DestPos { get; set; }
@@ -27,7 +28,7 @@ public abstract class PawnBase :Unit, IDamageable
 
     //option
     [field : SerializeField] public IDamageable LockTarget { get; set; }
-    public bool HasTarget => LockTarget != null && !LockTarget.IsDead();
+    public bool HasTarget => LockTarget != null && !LockTarget.IsDead;
     public float SearchRange { get => PawnStat.SearchRange; }
     public float LastCombatTime { get; set; } = 0f;
     public Action OnDeadAction { get; set; }
@@ -56,6 +57,8 @@ public abstract class PawnBase :Unit, IDamageable
             AniController.SetAniState(_state);
         }
     }
+
+    public Stat Stat => PawnStat;
 
     public virtual void SetTriggerAni(Define.EPawnAniTriger trigger)
     {
@@ -121,7 +124,9 @@ public abstract class PawnBase :Unit, IDamageable
     public void UpdateMove()
     {
         if (_pawnMove.IsMove is false)
+        {
             //AI.SetState(AI.GetIdleState());
+        }
 
         AniController.Flip(_pawnMove.Velocity);
 
@@ -140,18 +145,6 @@ public abstract class PawnBase :Unit, IDamageable
         LastCombatTime = Time.time;
 
         return false;
-    }
-
-    /// <summary>
-    /// 타격타이밍에 실행 -> animation에서 OnHitEvent 호출시 
-    /// </summary>
-    public virtual void BegineAniAttack()
-    {
-        //projectile 발사
-        Skill skill = PawnSkills.GetRunnigSkill();
-        DamageMessage msg = new DamageMessage(PawnStat,
-                                           skill);
-        
     }
 
     /// <summary>
@@ -188,7 +181,7 @@ public abstract class PawnBase :Unit, IDamageable
 
     private void OnLive()
     {
-        if (IsDead())
+        if (IsDead)
         {
             PawnStat.OnLive();
             //AI.SetState(AI.GetIdleState());
@@ -235,25 +228,9 @@ public abstract class PawnBase :Unit, IDamageable
     }
 
 
-    public Transform GetTransform()
-    {
-        return transform;
-    }
-
-    public bool IsDead()
-    {
-        return PawnStat.IsDead;
-    }
-
-    public IStat GetStat()
-    {
-        return PawnStat;
-    }
-
-    public Collider2D GetCollider()
-    {
-        return _collider;
-    }
-
-    
+    public Transform Transform => transform;
+    public bool IsDead => PawnStat.IsDead;
+    public IStat GetIStat() => PawnStat;
+    public Collider2D Collider => _collider;
+    public ISkillMotion SkillMotion => AniController;
 }

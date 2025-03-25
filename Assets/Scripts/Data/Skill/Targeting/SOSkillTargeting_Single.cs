@@ -18,19 +18,19 @@ public class SOSkillTargeting_Single : SkillTargetingBase
         }
 
         int layerTarget = (int)Define.Layer.Pawn | (int)Define.Layer.Building;
-        Collider2D [] colliders = Physics2D.OverlapCircleAll(caster.GetTransform().position, range, layerTarget);
+        Collider2D [] colliders = Physics2D.OverlapCircleAll(caster.Transform.position, range, layerTarget);
 
         float minDistance = float.MaxValue;
         IDamageable target = null;
         foreach (var collider in colliders)
         {
-            if (collider.transform == caster.GetTransform())
+            if (collider.transform == caster.Transform)
                 continue;
 
             IDamageable unit = collider.attachedRigidbody.GetComponent<IDamageable>();
-            if (unit != null && !unit.IsDead() && caster.GetTargetType(unit.Team) == targetType)
+            if (unit != null && !unit.IsDead && caster.GetTargetType(unit.Team) == targetType)
             {
-                float value = Vector3.Distance(caster.GetTransform().position, collider.transform.position);
+                float value = Vector3.Distance(caster.Transform.position, collider.transform.position);
                 if (value < minDistance)
                 {
                     minDistance = value;

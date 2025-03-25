@@ -50,14 +50,6 @@ public class Define
         Cool
     }
 
-    public enum ESkillMotion
-    {
-        Casting,
-        Slash,
-        Shot,
-    }
-
-
     public enum Scene
     {
         Unknown,
