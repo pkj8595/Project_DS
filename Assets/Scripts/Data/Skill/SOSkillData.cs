@@ -25,6 +25,7 @@ public class SOSkillData : SOData
     [ShowIfEnum("castSkillMotion", (int)ESkillMotionTriger.Cast)]
     public float castDelayTime;
 
+    public List<SkillConditionBase> conditions;
     public SkillGroup[] skills;
 
 }

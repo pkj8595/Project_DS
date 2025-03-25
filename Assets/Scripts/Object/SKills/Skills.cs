@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 // 기본 스킬 클래스
@@ -17,6 +18,7 @@ public class Skill
     public List<SkillEffectBase> AffectList { get; } = new ();
     public float LastRunTime { get; set; }
     public bool IsBaseSkill { get; set; }
+    public bool IsProcessing { get; private set; } = false;
     float reducedCoolTime = 0f;
 
     private Stat _stat;
@@ -86,38 +88,58 @@ public class Skill
         LastRunTime = -1000f;
     }
 
-    public async UniTask<bool> Cast(IDamageable caster)
+    public bool CheckSkillCondition(IDamageable caster)
+    {
+        if (IsProcessing)
+        {
+            Debug.Log("스킬이 이미 실행 중입니다.");
+            return false;
+        }
+
+        foreach (var condition in data.conditions)
+        {
+            if (!condition.IsConditionMet(caster))
+            {
+                Debug.Log("스킬 조건 미달");
+                return false;
+            }
+        }
+
+        data.conditions.ForEach(condition => condition.ConsumeResources(caster));
+
+        StartSkillProcess(caster).Forget();
+
+        return true;
+    }
+
+    public async UniTaskVoid StartSkillProcess(IDamageable caster)
+    {
+        IsProcessing = true;
+        await Cast(caster);
+        IsProcessing = false;
+        LastRunTime = Time.time;
+    }
+
+    public async UniTask Cast(IDamageable caster)
     {
         SOSkillData skillData = data;
-        List<UniTask> skillTasks = new List<UniTask>();
+
+        // 애니메이션 시작 및 대기
+        await caster.SkillMotion.RunAnimation(skillData.trigerSkillMotion, skillData.trigerDelayTime);
 
         foreach (var skill in skillData.skills)
         {
-            //todo 스킬 첫 타겟팅 구현 or 첫 타겟팅을 구하고 다름 타겟팅에 전달?
-            List<IDamageable> targets = skill.targeting.GetTargets(caster); // 타겟 스냅샷 저장
-
-            // 애니메이션 시작 및 대기
-            await caster.SkillMotion.RunAnimation(skillData.trigerSkillMotion,skillData.trigerDelayTime);
-
             // 스킬 실행 시점에 타겟이 유효한지 다시 확인
-            List<IDamageable> validTargets = targets.Where(t => !t.IsDead).ToList();
+            List<IDamageable> targets = skill.targeting.FindTargets(caster); // 타겟 스냅샷 저장
 
-            if (validTargets.Count == 0)
-            {
-                // 타겟이 없으면 실패 처리 (예: 마나 소모 적용 X)
-                return false;
-            }
-
-            foreach (IDamageable target in validTargets)
+            foreach (IDamageable target in targets)
             {
                 foreach (var effect in skill.effects)
                 {
-                    skillTasks.Add(effect.ApplyEffect(caster, target));
+                    await effect.ApplyEffect(caster, target);
                 }
             }
         }
 
-        await UniTask.WhenAll(skillTasks); // 모든 스킬 효과가 완료될 때까지 대기
-        return true;
     }
 }

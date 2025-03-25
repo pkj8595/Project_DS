@@ -8,7 +8,7 @@ public class SOSkillTargeting_Single : SkillTargetingBase
     public float range = 1.0f;
     public Define.ETargetType targetType = Define.ETargetType.Enemy;
 
-    public override List<IDamageable> GetTargets(IDamageable caster)
+    public override List<IDamageable> FindTargets(IDamageable caster)
     {
         List<IDamageable> targets = new List<IDamageable>();
         if (Define.ETargetType.Self == targetType)
