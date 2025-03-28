@@ -8,6 +8,16 @@ public class ObjectManager : NetworkBehaviour
     public List<GameObject> AllBuildings { get; private set; } = new List<GameObject>();
     public Dictionary<string, int> PlayerResources { get; private set; } = new Dictionary<string, int>();
 
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        Debug.Log($"{this.name} 클라시작");
+    }
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        Debug.Log($"{this.name} 서버시작");
+    }
 
     // 유닛 스폰 예시
     [ServerRpc]

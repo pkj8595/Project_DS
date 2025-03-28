@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using FishNet.Object;
+using FishNet;
 
 public class Managers : NetworkBehaviour
 {
@@ -35,6 +36,8 @@ public class Managers : NetworkBehaviour
             Destroy(gameObject);
             return;
         }
+
+        Instance = this;
 
         InitManagers();
     }

@@ -15,7 +15,14 @@ public class PlayerController : NetworkBehaviour
     {
         if (!IsOwner)
             return;
+        if(Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            //MapManager.Map.GetGridPos()
 
+            Debug.Log("call Managers.Map.GetGridPos");
+            Managers.Map.GetGridPos(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+            Debug.Log("call after Managers.Map.GetGridPos");
+        }
 
     }
     public void Init(int playerIndex)
